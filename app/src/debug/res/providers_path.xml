@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="external_files" path="."/>
+</paths>
+
+    <!--Arquivo xml usado para permissão de escrita na memoria do app
+        não deletar sob pena de não conseguir armazenar as fotos -->

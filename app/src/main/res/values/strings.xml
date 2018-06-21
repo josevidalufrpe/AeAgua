@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">CarroPipa</string>
+    <string name="username_or_email">Username or Email</string>
+    <string name="Password">Senha</string>
+    <string name="app_title">Carro Pipa</string>
+    <string name="app_slogan">O jeito mais prático de repor água</string>
+    <string name="btn_entrar">Entrar</string>
+    <string name="campo_vazio">Este campo nao pode ser vazio!</string>
+    <string name="connection_failed">Falha na Conexão!</string>
+    <string name="userPass_failed">Usuário ou Senha invalido!</string>
+    <string name="title_activity_home_maps">Map</string>
+    <string name="title_activity_m__main">M_MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Perfil</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="nome_usuario">Nome do Usuario</string>
+    <string name="email_usuario">usuario@carropipa.com</string>
+    <string name="cadastration_failed">Falha ao Cadatrar</string>
+    <string name="take_a_picture">Tire uma foto</string>
+    <string name="edt_complemento">Complemento</string>
+    <string name="edt_bairro">Bairro</string>
+    <string name="edt_cidade">Cidade</string>
+    <string name="edt_cep">CEP</string>
+    <string name="edt_lograduro">Logradouro</string>
+    <string name="btn_limpar">LIMPAR</string>
+    <string name="btn_enviar">ENVIAR</string>
+    <string name="edt_cpf">CPF</string>
+</resources>

@@ -96,22 +96,29 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_perfil) {
-            Intent perfilAct= new Intent(M_MainActivity.this,PerfilActivity.class);
-            perfilAct.putExtra("email",user_email);
-            startActivity(perfilAct);
-        } else if (id == R.id.nav_pedir) {
-            Intent solicitarAct= new Intent(M_MainActivity.this,SolicitarActivity.class);
-            startActivity(solicitarAct);
-        } else if (id == R.id.nav_pagamento) {
+        switch (id) {
+            case R.id.nav_perfil:
+                Intent perfilAct = new Intent(M_MainActivity.this, PerfilActivity.class);
+                perfilAct.putExtra("email", user_email);
+                startActivity(perfilAct);
+                break;
+            case R.id.nav_pedir:
+                Intent solicitarAct = new Intent(M_MainActivity.this, SolicitarActivity.class);
+                startActivity(solicitarAct);
+                break;
+            case R.id.nav_pagamento:
 
-        } else if (id == R.id.nav_ajuda) {
+                break;
+            case R.id.nav_ajuda:
 
-        } else if (id == R.id.nav_sobre) {
+                break;
+            case R.id.nav_sobre:
 
-        } else if (id == R.id.nav_sair) {
-            finish();
+                break;
+            case R.id.nav_sair:
+                finish();
 
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );

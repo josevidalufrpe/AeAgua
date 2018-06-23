@@ -36,14 +36,11 @@ import com.inova.ufrpe.processos.carropipa.pessoa.persistence.PessoaDAO;
 import java.io.File;
 import java.io.IOException;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class PerfilActivity extends AppCompatActivity {
 
     private final int GALERY = 1;
     private final int CAMERA = 0;
     private File foto = null;
-    private Bitmap btmReduzido;
 
     private EditText cpf;
     private EditText logradouro;
@@ -51,13 +48,8 @@ public class PerfilActivity extends AppCompatActivity {
     private EditText cidade;
     private EditText bairro;
     private EditText cep;
-    private Button limpar;
-    private Button enviar;
     private Spinner uf;
-    private FloatingActionButton tirarFoto;
-    private FloatingActionButton abrirGaleria;
     private ImageView imageUser;
-    private Spinner pessoaTipo;
     private String user_email;
 
 
@@ -69,16 +61,16 @@ public class PerfilActivity extends AppCompatActivity {
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
 
-        limpar = findViewById(R.id.btn_limpar);
-        enviar = findViewById(R.id.btn_enviar);
-        tirarFoto = findViewById(R.id.fab_tirarFoto);
-        abrirGaleria = findViewById(R.id.fab_abrirGaleria);
+        Button limpar = findViewById(R.id.btn_limpar);
+        Button enviar = findViewById(R.id.btn_enviar);
+        FloatingActionButton tirarFoto = findViewById(R.id.fab_tirarFoto);
+        FloatingActionButton abrirGaleria = findViewById(R.id.fab_abrirGaleria);
         imageUser = findViewById(R.id.img_user);
 
         uf = findViewById(R.id.spn_uf);
         //pessoa.setUf(uf.getSelectedItem().toString()); //ler o spinner
         //Log.d("Estou Lendo:",pessoa.getUf());
-        pessoaTipo = findViewById(R.id.spn_tipo);
+        Spinner pessoaTipo = findViewById(R.id.spn_tipo);
 
 
         //permissões para manipular arquivos:
@@ -188,9 +180,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     /**
      *Metodo salvarPerfil - Salva um perfil no banco
-     * @param : None
-     * @return : None
-     * @action : Le os campos do formulário, atribui a um objeto pessoa e salva esse objeto no banco
+     *
+     * Le os campos do formulário, atribui a um objeto pessoa e salva esse objeto no banco
      * Para tal faz uso do objeto PessoaDAO - que manipula as opeações no banco de dados
      *
      */
@@ -227,9 +218,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     /**
      * Metodo abreCamera - Tira uma foto com a Camera do Dispositivo
-     * @param : None
-     * @return : None
-     * @action : Retorna para o arquivo uma foto tirada pela camera do usuário
+     *
+     * Retorna para o arquivo uma foto tirada pela camera do usuário
      */
     private void abreCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -251,9 +241,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     /**
      *Metodo Escolher foto - Escolhe Foto do usuário
-     * @param : None
-     * @return: None
-     * @action: Abre a galeria do usuário para que ele possa escolher uma foto
+     *
+     *  Abre a galeria do usuário para que ele possa escolher uma foto
      */
     private void escolherFoto() {
         Intent galery =
@@ -308,6 +297,7 @@ public class PerfilActivity extends AppCompatActivity {
         String picturePath = null;
         super.onActivityResult(requestCode,resultCode, data);
         Bitmap thumb;
+        Bitmap btmReduzido;
         if(requestCode == GALERY && resultCode== RESULT_OK){
             Uri selectedImage = data.getData();
             String[] filePath = {MediaStore.Images.Media.DATA};

@@ -19,7 +19,7 @@ public enum EnumStados {
         this.valor = valor;
     }
 
-    public String getValor() {
+    private String getValor() {
         return valor;
     }
 

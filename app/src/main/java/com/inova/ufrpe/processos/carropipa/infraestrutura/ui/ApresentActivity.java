@@ -11,23 +11,20 @@ import com.inova.ufrpe.processos.carropipa.motorista.ui.CriarContaMotoristaActiv
 
 public class ApresentActivity extends AppCompatActivity {
 
-    private Button btn_Criar;
-    private Button btn_Entrar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_apresent );
-        btn_Criar = findViewById(R.id.button2);
-        btn_Entrar = findViewById(R.id.btn_entrar);
+        Button btn_Criar = findViewById(R.id.button2);
+        Button btn_Entrar = findViewById(R.id.btn_entrar);
 
-        btn_Entrar.setOnClickListener( new View.OnClickListener() {
+        btn_Entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ApresentActivity.this,LoginActivity.class));
             }
         } );
-        btn_Criar.setOnClickListener( new View.OnClickListener() {
+        btn_Criar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ApresentActivity.this,CriarContaMotoristaActivity.class));

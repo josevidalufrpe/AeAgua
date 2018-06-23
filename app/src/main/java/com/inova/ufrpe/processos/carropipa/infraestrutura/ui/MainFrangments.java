@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.inova.ufrpe.processos.carropipa.R;
-
 public class MainFrangments extends Fragment {
 
     @Nullable

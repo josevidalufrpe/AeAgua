@@ -10,7 +10,7 @@ public enum EnumTipos {
             this.valor = valor;
         }
 
-        public String getValor() {
+        private String getValor() {
             return valor;
         }
 

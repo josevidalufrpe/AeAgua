@@ -27,8 +27,6 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
     private String email;
     private String celular;
     private String senha;
-    private Button btn_criar;
-    private String url = "";
     private String parametros = "";
 
     @Override
@@ -41,9 +39,9 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
         editEmail = findViewById( R.id.editEmail );
         editTelefone = findViewById( R.id.editTelefone );
         editSenha = findViewById( R.id.editSenha );
-        btn_criar = findViewById( R.id.btn_criarconta );
+        Button btn_criar = findViewById(R.id.btn_criarconta);
 
-        btn_criar.setOnClickListener( new View.OnClickListener() {
+        btn_criar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -94,7 +92,7 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
                     activeNetwork.isConnectedOrConnecting();
             if (isConnected){
 
-                url = "http://192.168.15.148:5000/cadastro/cadastrar_motorista";
+                String url = "http://192.168.15.148:5000/cadastro/cadastrar_motorista";
                 parametros = "email=" + email +"&senha=" + senha +"&celular=" + celular +"&sobrenome=" + sobrenome +"&nome=" + nome;
                 new SolicitaDados().execute(url);
             }

@@ -1,22 +1,18 @@
 package com.inova.ufrpe.processos.carropipa.motorista.persistence;
 
-import android.database.Cursor;
 import android.os.AsyncTask;
 
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class MotoristaDAO {
 
-    String parametros;
-    String url = "http://192.168.15.148:5000/cadastro/criar_perfil";
-    Boolean response;
+    private String parametros;
+    private final String url = "http://192.168.15.148:5000/cadastro/criar_perfil";
+    private Boolean response;
 
 
 
@@ -41,7 +37,7 @@ public class MotoristaDAO {
 
     /**
      * metodo findAll - Retorna todas as pessoas cadastradas no banco remoto
-     * @param : None
+     *
      * @return : Uma lista com todas as pessoas cadastradas no banco
      */
 /*    public ArrayList<Pessoa> findAll(){

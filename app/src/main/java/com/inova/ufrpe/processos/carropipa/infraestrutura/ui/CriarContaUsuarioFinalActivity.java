@@ -1,7 +1,6 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -28,8 +27,6 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String email;
     private String celular;
     private String senha;
-    private Button btn_criar;
-    private String url = "";
     private String parametros = "";
 
     @Override
@@ -42,9 +39,9 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         editEmail = findViewById( R.id.editEmail );
         editTelefone = findViewById( R.id.editTelefone );
         editSenha = findViewById( R.id.editSenha );
-        btn_criar = findViewById( R.id.btn_criarconta );
+        Button btn_criar = findViewById(R.id.btn_criarconta);
 
-        btn_criar.setOnClickListener( new View.OnClickListener() {
+        btn_criar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -95,7 +92,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
                     activeNetwork.isConnectedOrConnecting();
             if (isConnected){
 
-                url = "http://10.246.1.121:5000/cadastro/cadastrar";
+                String url = "http://10.246.1.121:5000/cadastro/cadastrar";
                 parametros = "email=" + email +"&senha=" + senha +"&celular=" + celular +"&sobrenome=" + sobrenome +"&nome=" + nome;
                 new SolicitaDados().execute(url);
             }
@@ -103,18 +100,18 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         }
     }
 
-    public Boolean validarNome(String nome) {
+    private Boolean validarNome(String nome) {
 
         return nome.matches("^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)" +
                 "\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$");
     }
 
-    public Boolean validarSobrenome(String sobreNome) {
+    private Boolean validarSobrenome(String sobreNome) {
 
         return (sobreNome.matches("^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)" +
                 "\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$"));
     }
-    public Boolean validarNumero(String numero) {
+    private Boolean validarNumero(String numero) {
 
         return numero.matches("^[0-9]{0,5}+$");
     }

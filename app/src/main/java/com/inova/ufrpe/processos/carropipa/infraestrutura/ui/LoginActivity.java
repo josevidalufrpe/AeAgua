@@ -20,7 +20,6 @@ import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
 
 public class   LoginActivity extends AppCompatActivity {
 
-    private Button btn_logar;
     private EditText edt_login;
     private EditText edt_senha;
     private String url = "";
@@ -31,7 +30,7 @@ public class   LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btn_logar = findViewById(R.id.btn_logar);
+        Button btn_logar = findViewById(R.id.btn_logar);
         edt_login = findViewById(R.id.edt_login);
         edt_senha = findViewById(R.id.edt_senha);
 

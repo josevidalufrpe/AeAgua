@@ -9,7 +9,7 @@ import static java.lang.Boolean.TRUE;
 public class PessoaDAO {
 
    private String parametros;
-    private String url = "http://10.246.1.121:5000/cadastro/criar_perfil";
+    private final String url = "http://10.246.1.121:5000/cadastro/criar_perfil";
     private Boolean response;
 
 
@@ -35,7 +35,7 @@ public class PessoaDAO {
 
     /**
      * metodo findAll - Retorna todas as pessoas cadastradas no banco remoto
-     * @param : None
+     *
      * @return : Uma lista com todas as pessoas cadastradas no banco
      */
 /*    public ArrayList<Pessoa> findAll(){

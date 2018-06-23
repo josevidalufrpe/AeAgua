@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecundaryAccent"
+    android:background="@color/secondaryLightColor"
     tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.SolicitarActivity">
 
     <ImageView
@@ -27,8 +27,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/botao_redondo"
-        android:text="SOLICITAR AGORA"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:text="@string/solicitar_agora"
+        android:textColor="@color/primaryTextColor"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -22,7 +22,7 @@ public class   LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private String url = "";
+    private String url = "http://10.246.1.121:5000/login/logar";
     private String parametros = "";
 
     @Override
@@ -63,7 +63,6 @@ public class   LoginActivity extends AppCompatActivity {
 
                     } else {
                         //TODO IP para connected.
-                        url = "http://10.246.1.121:5000/login/logar";
                         parametros = "email=" + emailUser +"&senha=" + senhaUser;
                         new SolicitaDados().execute(url);
                     }

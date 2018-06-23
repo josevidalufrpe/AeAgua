@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:background="@color/primaryLightColor"
     tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.CriarContaUsuarioFinalActivity">
 
     <EditText
         android:id="@+id/editSenha"
         android:layout_width="289dp"
         android:layout_height="43dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="numberPassword"
-        android:text="@string/Password"
+        android:inputType="textPassword"
+        android:hint="@string/Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toBottomOf="@+id/editTelefone" />
@@ -30,7 +30,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="phone"
-        android:text="Telefone"
+        android:hint="@string/edt_telefone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/editEmail" />
@@ -44,7 +44,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Seu Email"
+        android:hint="@string/edt_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/editSobrenome" />
@@ -58,7 +58,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nome"
+        android:hint="@string/edt_nome"
         app:layout_constraintEnd_toStartOf="@+id/editSobrenome"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/botao_redondo"
-        android:text="Criar Conta"
+        android:text="@string/criar_conta"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="24sp"
         android:typeface="monospace"

@@ -19,7 +19,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-    //AQUI CHAMA o MAPA  NO LUGAR DO CONTENT
+    <!--AQUI CHAMA o MAPA  NO LUGAR DO CONTENT-->
     <include layout="@layout/content_m__main" />
 
     <android.support.design.widget.FloatingActionButton
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorSecundaryDark"
+        app:backgroundTint="@color/secondaryDarkColor"
         app:srcCompat="@drawable/iconsroute" />
 
 </android.support.design.widget.CoordinatorLayout>

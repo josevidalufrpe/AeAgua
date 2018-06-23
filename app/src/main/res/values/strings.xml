@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">CarroPipa</string>
+    <string name="app_name">Aê Água!</string>
     <string name="username_or_email">Username or Email</string>
     <string name="Password">Senha</string>
-    <string name="app_title">Carro Pipa</string>
+    <string name="app_title">Aê Água!</string>
     <string name="app_slogan">O jeito mais prático de repor água</string>
     <string name="btn_entrar">Entrar</string>
     <string name="campo_vazio">Este campo nao pode ser vazio!</string>
     <string name="connection_failed">Falha na Conexão!</string>
-    <string name="userPass_failed">Usuário ou Senha invalido!</string>
+    <string name="userPass_failed">Usuário ou Senha inválido!</string>
     <string name="title_activity_home_maps">Map</string>
     <string name="title_activity_m__main">M_MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -29,4 +29,9 @@
     <string name="btn_limpar">LIMPAR</string>
     <string name="btn_enviar">ENVIAR</string>
     <string name="edt_cpf">CPF</string>
+    <string name="solicitar_agora">SOLICITAR AGORA</string>
+    <string name="edt_telefone">Telefone</string>
+    <string name="edt_email">Email</string>
+    <string name="edt_nome">Nome</string>
+    <string name="criar_conta">Criar Conta</string>
 </resources>

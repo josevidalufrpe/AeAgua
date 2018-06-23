@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecundaryAccent"
+    android:background="@color/secondaryLightColor"
     tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.ApresentActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -17,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/app_slogan"
         android:textAlignment="center"
-        android:textColor="#ffffff"
+        android:textColor="#004d40"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/botao_redondo_contorno"
-        android:text="CRIAR UMA CONTA"
+        android:text="@string/criar_conta"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

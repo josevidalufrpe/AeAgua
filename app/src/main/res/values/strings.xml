@@ -3,7 +3,7 @@
     <string name="username_or_email">Username or Email</string>
     <string name="Password">Senha</string>
     <string name="app_title">Aê Água!</string>
-    <string name="app_slogan">O jeito mais prático de repor água</string>
+    <string name="app_slogan">A solução para falta da água</string>
     <string name="btn_entrar">Entrar</string>
     <string name="campo_vazio">Este campo nao pode ser vazio!</string>
     <string name="connection_failed">Falha na Conexão!</string>
@@ -28,7 +28,7 @@
     <string name="edt_lograduro">Logradouro</string>
     <string name="btn_limpar">LIMPAR</string>
     <string name="btn_enviar">ENVIAR</string>
-    <string name="edt_cpf">CPF</string>
+    <string name="edt_cpf">CPF/CNPJ</string>
     <string name="solicitar_agora">SOLICITAR AGORA</string>
     <string name="edt_telefone">Telefone</string>
     <string name="edt_email">Email</string>

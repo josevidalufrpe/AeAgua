@@ -38,8 +38,8 @@ public class   LoginActivity extends AppCompatActivity {
         btn_logar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-                //startActivity(autentication);
+                Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
+                startActivity(autentication);
                 //snippet para verificar o status da conexão
                 ConnectivityManager cm =
                         (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -47,7 +47,7 @@ public class   LoginActivity extends AppCompatActivity {
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 boolean isConnected = activeNetwork != null &&
                         activeNetwork.isConnectedOrConnecting();
-                //isConnected = false;
+                isConnected = false;
                 if (isConnected){
 
                     String emailUser = edt_login.getText().toString();

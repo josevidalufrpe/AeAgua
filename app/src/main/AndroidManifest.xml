@@ -22,7 +22,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_icone_c"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -46,7 +46,7 @@
         <activity android:name=".infraestrutura.ui.LoginActivity" />
         <activity
             android:name=".infraestrutura.ui.M_MainActivity"
-            android:label="@string/title_activity_m__main"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".infraestrutura.ui.CriarContaUsuarioFinalActivity" />
         <!--
@@ -63,10 +63,10 @@
 
         <activity
             android:name=".infraestrutura.ui.MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/app_name" />
         <activity android:name=".infraestrutura.ui.PerfilActivity" />
         <activity android:name=".infraestrutura.ui.SolicitarActivity"/>
-        <activity android:name=".infraestrutura.hardware.TirarFotoActivity"/>
+        <activity android:name=".motorista.ui.CriarContaMotoristaActivity"/>
     </application>
 
 </manifest>

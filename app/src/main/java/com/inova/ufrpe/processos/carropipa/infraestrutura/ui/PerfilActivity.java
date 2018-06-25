@@ -18,6 +18,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,6 +58,14 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_perfil );
+
+        cpf = findViewById(R.id.edt_cpf);
+        logradouro = findViewById(R.id.edt_logradouro);
+        complemento = findViewById(R.id.edt_complemento);
+        cidade = findViewById(R.id.edt_cidade);
+        bairro = findViewById(R.id.edt_bairro);
+        cep = findViewById(R.id.edt_cep);
+
 
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
@@ -173,7 +182,8 @@ public class PerfilActivity extends AppCompatActivity {
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                salvarPerfil();
+                verificarCampos();
+                //salvarPerfil();
             }
         });
     }
@@ -188,17 +198,17 @@ public class PerfilActivity extends AppCompatActivity {
     private void salvarPerfil() {
 
         Pessoa pessoa = new Pessoa();
-        cpf = findViewById(R.id.edt_cpf);
+        //cpf = findViewById(R.id.edt_cpf);
         pessoa.setCpf(cpf.getText().toString());
-        logradouro = findViewById(R.id.edt_logradouro);
+        //logradouro = findViewById(R.id.edt_logradouro);
         pessoa.setLogradouro(logradouro.getText().toString());
-        complemento = findViewById(R.id.edt_complemento);
+        //complemento = findViewById(R.id.edt_complemento);
         pessoa.setComplemento(complemento.getText().toString());
-        cidade = findViewById(R.id.edt_cidade);
+        //cidade = findViewById(R.id.edt_cidade);
         pessoa.setCidade(cidade.getText().toString());
-        bairro = findViewById(R.id.edt_bairro);
+        //bairro = findViewById(R.id.edt_bairro);
         pessoa.setBairro(bairro.getText().toString());
-        cep = findViewById(R.id.edt_cep);
+        //cep = findViewById(R.id.edt_cep);
         pessoa.setCep(cep.getText().toString());
 
         PessoaDAO pessoaDAO = new PessoaDAO();
@@ -230,13 +240,13 @@ public class PerfilActivity extends AppCompatActivity {
         }catch (IOException e) {   // Manipulação em caso de falha de criação do arquivo
             e.printStackTrace();
         }
-        if(foto!= null) {
-            Uri photoURI =
-                    FileProvider.getUriForFile(getBaseContext(),
-                            getBaseContext().getApplicationContext().getPackageName() + ".provider", foto);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, CAMERA);
-        }
+        //if(foto!= null) {
+        //    Uri photoURI =
+        //            FileProvider.getUriForFile(getBaseContext(),
+        //                    getBaseContext().getApplicationContext().getPackageName() + ".provider", foto);
+        //    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+        //    startActivityForResult(takePictureIntent, CAMERA);
+        // }
     }
 
     /**
@@ -257,13 +267,17 @@ public class PerfilActivity extends AppCompatActivity {
      * action: Limpa os campos de um formulário
      */
     private void limparCampos() {
+        try{
         cpf.setText(cpf.getHint());
         logradouro.setText(logradouro.getHint());
         complemento.setText(complemento.getHint());
         cidade.setText(cidade.getHint());
         bairro.setText(bairro.getHint());
         cep.setText(cep.getHint());
-        uf.setSelection(0);
+        uf.setSelection(0);}
+        catch (Exception e){
+            Toast.makeText( PerfilActivity.this,"Tela Limpa",Toast.LENGTH_LONG).show();
+        }
     }
 
     /*Trata a resposta de permissão do usuário
@@ -331,5 +345,37 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    private void verificarCampos(){
+        if (cpf.getText().toString().trim().isEmpty()) {
+            cpf.setError("Campo Vazio");
+        }
+        else if (logradouro.getText().toString().trim().isEmpty()) {
+            logradouro.setError("Campo Vazio");
+        }
+        else if (complemento.getText().toString().trim().isEmpty()) {
+            complemento.setError("Campo Vazio");
+        }
+
+        else if (bairro.getText().toString().trim().isEmpty()) {
+            bairro.setError("Campo Vazio");
+        }
+        else if (cidade.getText().toString().trim().isEmpty()) {
+            cidade.setError("Campo Vazio");
+        }
+        else if (cep.getText().toString().trim().isEmpty()) {
+            cep.setError("Campo Vazio");
+        }
+        else if (uf.equals( 0 )){
+            Toast.makeText( PerfilActivity.this,"Porfavor Informe Sua Unidade Federativa",Toast.LENGTH_LONG).show();
+        }
+        else if(validarNumero(cpf.getText().toString().trim() )&&validarNumero(cep.getText().toString().trim()) ){
+            salvarPerfil();
+        }
+
+    }
+    private Boolean validarNumero(String numero) {
+
+        return numero.matches("^[0-9]{0,5}+$");
     }
 }

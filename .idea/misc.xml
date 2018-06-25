@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< Updated upstream
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
@@ -31,4 +32,9 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+=======
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+>>>>>>> Stashed changes
 </project>

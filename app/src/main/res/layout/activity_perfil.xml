@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSecundaryAccent"
+    android:background="@color/secondaryLightColor"
     tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.PerfilActivity"
     tools:layout_editor_absoluteY="81dp">
 

@@ -34,4 +34,5 @@
     <string name="edt_email">Email</string>
     <string name="edt_nome">Nome</string>
     <string name="criar_conta">Criar Conta</string>
+    <string name="btn_salvar">SALVAR</string>
 </resources>

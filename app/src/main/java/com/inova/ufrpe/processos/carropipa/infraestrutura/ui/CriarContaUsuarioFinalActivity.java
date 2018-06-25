@@ -6,14 +6,19 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
 
 public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
 
@@ -22,6 +27,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editTelefone;
     private EditText editSenha;
+    private ImageView imageUser;
     private String nome;
     private String sobrenome;
     private String email;
@@ -29,17 +35,37 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String senha;
     private String parametros = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_criar_conta );
+
+        Spinner pessoaTipo = findViewById(R.id.spn_tipo);
 
         editNome = findViewById( R.id.editNome );
         editSobreNome = findViewById( R.id.editSobrenome );
         editEmail = findViewById( R.id.editEmail );
         editTelefone = findViewById( R.id.editTelefone );
         editSenha = findViewById( R.id.editSenha );
+        imageUser = findViewById(R.id.img_user);
         Button btn_criar = findViewById(R.id.btn_criarconta);
+
+        //Spiner Tipos de Pessoa:
+        ArrayAdapter<String> enumTiposArrayAdapter;
+        enumTiposArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumTipos.EnumTiposLista());
+        pessoaTipo.setAdapter(enumTiposArrayAdapter);
+        enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
+
+        //quando o usuário tocar na foto
+        imageUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         btn_criar.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -22,7 +22,7 @@ public class   LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private String url = "http://10.246.1.121:5000/login/logar";
+    private String url = "http://192.168.15.148:5000/login/logar";
     private String parametros = "";
 
     @Override

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,9 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String email;
     private String celular;
     private String senha;
+    private String tipo;
     private String parametros = "";
+    String url = "http://192.168.15.148:5000/cadastro/cadastrar";
 
 
     @Override
@@ -57,7 +60,20 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         pessoaTipo.setAdapter(enumTiposArrayAdapter);
         enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
+        pessoaTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipo = parent.getSelectedItem().toString();
+                Log.d("Verificando Spinner", tipo);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         //quando o usuário tocar na foto
         imageUser.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +104,9 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         if (email.isEmpty() || senha.isEmpty() || celular.isEmpty() || nome.isEmpty()|| sobrenome.isEmpty()) {
             Toast.makeText( CriarContaUsuarioFinalActivity.this, getString( R.string.campo_vazio ), Toast.LENGTH_SHORT ).show();
 
-        }  else if (email.equals("Seu Email") || senha.equals( "senha" ) || nome.equals( "Nome" ) || sobrenome.equals( "Sobrenome" ) || celular.equals( "Telefone" )) {
+        }  else if (email.equals(editEmail.getHint()) || senha.equals(editSenha.getHint()) ||
+                nome.equals(editNome.getHint()) || sobrenome.equals(editSobreNome.getHint()) ||
+                celular.equals(editTelefone.getHint())) {
             Toast.makeText( CriarContaUsuarioFinalActivity.this, getString( R.string.campo_vazio ), Toast.LENGTH_SHORT ).show();
 
         } else {
@@ -98,15 +116,15 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
 
     private void verificarEntradas(){
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editEmail.setError("Email inválido");
-        } else if (validarNome( nome )) {
-            editNome.setError("Nome inválido");
+            editEmail.setError(getString(R.string.err_invalid_mail));
+        } else if (!validarNome( nome )) {
+            editNome.setError(getString(R.string.err_invalid_name));
 
-        } else if (validarSobrenome( sobrenome )) {
-            editSobreNome.setError("sobrenome inválido");
+        } else if (!validarSobrenome( sobrenome )) {
+            editSobreNome.setError(getString(R.string.err_invalid_lastName));
 
-        } else if (validarNumero( celular )) {
-            editTelefone.setError("Telefone inválido");
+        } else if (!validarNumero( celular )) {
+            editTelefone.setError(getString(R.string.err_invalid_phoneNumber));
 
         } else {
             // Criar com API
@@ -117,9 +135,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
             if (isConnected){
-
-                String url = "http://10.246.1.121:5000/cadastro/cadastrar";
-                parametros = "email=" + email +"&senha=" + senha +"&celular=" + celular +"&sobrenome=" + sobrenome +"&nome=" + nome;
+                parametros = "email=" + email +"&tipo=" + tipo +"&senha=" + senha +"&celular=" + celular +"&sobrenome=" + sobrenome +"&nome=" + nome;
                 new SolicitaDados().execute(url);
             }
             else{ Toast.makeText(CriarContaUsuarioFinalActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
@@ -139,7 +155,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     }
     private Boolean validarNumero(String numero) {
 
-        return numero.matches("^[0-9]{0,5}+$");
+        return numero.matches("^[0-9]{8,9}+$");
     }
 
     /*
@@ -160,9 +176,9 @@ A classe interna a seguir conecta a internet e envia informações em segundo pl
 
             //Criado para tratar a nova String vinda do Servidor;
 
-            String[] resultado = results.split(", ");
+            String[] resultado = results.split(",");
 
-            if(resultado[0].contains("login_ok")) {
+            if(resultado[0].contains("cadastration_ok")) {
                 finish();
             }
             else{

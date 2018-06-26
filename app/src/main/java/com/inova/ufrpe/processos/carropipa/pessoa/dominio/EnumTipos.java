@@ -2,7 +2,7 @@ package com.inova.ufrpe.processos.carropipa.pessoa.dominio;
 
 public enum EnumTipos {
 
-        TYPE("Escolha o Tipo de Pessoa"), FISICA("Pessoa Física"), JURIDICA("Pessoa Juridica");
+        A("Escolha o Tipo de Pessoa"), FISICA("Pessoa Física"), JURIDICA("Pessoa Juridica");
 
         private final String valor;
 

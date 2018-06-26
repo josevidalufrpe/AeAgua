@@ -27,6 +27,6 @@ public class ExternalStorage {
          */
         String timeStamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File pasta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        return new File(pasta.getPath() + File.separator+ "upkeep_" + timeStamp+ ".jpg");
+        return new File(pasta.getPath() + File.separator+ "aeagua" + timeStamp+ ".jpg");
     }
 }

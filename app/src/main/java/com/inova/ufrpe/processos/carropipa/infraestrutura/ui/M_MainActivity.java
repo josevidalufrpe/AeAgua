@@ -1,9 +1,16 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,15 +22,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.inova.ufrpe.processos.carropipa.R;
 
-public class M_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private String user_email;
     private String user_name;
     private String user_sname;
     private String user_rank;
-
+    private LocationManager locationManager;
+    private Location localizacao;
+    private static final int REQUEST_FINE_LOCATION = 1;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,22 +52,25 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         user_sname = autentication.getStringExtra("snome");
         user_rank = autentication.getStringExtra("rank");
         //fim de Pega os dados vindos após o login
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById( R.id.map );
+        mapFragment.getMapAsync( this );
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
         // BOTÃO DA POSIÇÃO NO MAPA
-        FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
-        fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
+        //fab.setOnClickListener( new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        goToCurrentLocation(localizacao);
                // chama o mapa
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace( R.id.context_frame, new HomeMapsActivity() ).commit();
+                //FragmentManager fm = getFragmentManager();
+                //fm.beginTransaction().replace( R.id.context_frame, new HomeMapsActivity() ).commit();
                // Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
                //         .setAction( "Action", null ).show();
 
-            }
-        } );
+        //    }
+        //} );
 
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -152,5 +171,107 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         TextView userName = headerView.findViewById(R.id.tv_nomeuser);
         userName.setText(String.format("%s %s - Rank: %s", nome, segundoNome, rank));
         userName.setTextColor(getResources().getColor(R.color.primaryTextColor));
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        updateLocation();
+
+    }
+
+    private void checkPermission() {
+        boolean permissionFineLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+        boolean permissionCoarseLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+
+        if (permissionFineLocation && permissionCoarseLocation) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_FINE_LOCATION: {
+                updateLocation();
+            }
+        }
+    }
+
+    public void updateLocation() {
+        checkPermission();
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED /*&& ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            goToCurrentLocation(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            mMap.setMyLocationEnabled(true);
+            goToCurrentLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+    }
+
+    public void goToCurrentLocation(Location location){
+        if(location!= null){
+            localizacao = location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng latLng = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));}
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 }

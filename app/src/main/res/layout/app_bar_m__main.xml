@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/secondaryDarkColor"
-        app:srcCompat="@drawable/iconsroute" />
+        app:backgroundTint="@color/secondaryLightColor"
+        app:srcCompat="@drawable/gps_fixed_black" />
 
 </android.support.design.widget.CoordinatorLayout>

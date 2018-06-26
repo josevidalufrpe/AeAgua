@@ -31,7 +31,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_emaiiuser"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:text="@string/email_usuario"

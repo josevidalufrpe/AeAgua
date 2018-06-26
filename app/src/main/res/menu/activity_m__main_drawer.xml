@@ -6,28 +6,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_perfil"
-            android:icon="@drawable/iconscadnome"
-            android:title="PERFIL" />
+            android:icon="@drawable/ic_person_black"
+            android:title="@string/menu_perfil" />
         <item
             android:id="@+id/nav_pedir"
-            android:icon="@android:drawable/ic_media_play"
-            android:title="PEDIR CAMINHÃO" />
+            android:icon="@drawable/ic_caminhao"
+            android:title="@string/menu_caminhao" />
         <item
             android:id="@+id/nav_pagamento"
-            android:icon="@android:drawable/presence_online"
-            android:title="PAGAMENTO" />
+            android:icon="@drawable/ic_money_black"
+            android:title="@string/menu_pagamento" />
         <item
             android:id="@+id/nav_ajuda"
-            android:icon="@android:drawable/ic_menu_help"
-            android:title="AJUDA" />
+            android:icon="@drawable/ic_help_black"
+            android:title="@string/menu_ajuda" />
         <item
             android:id="@+id/nav_sobre"
-            android:icon="@android:drawable/ic_dialog_info"
-            android:title="SOBRE" />
+            android:icon="@drawable/ic_info_black"
+            android:title="@string/menu_sobre" />
         <item
             android:id="@+id/nav_sair"
-            android:icon="@android:drawable/btn_dialog"
-            android:title="SAIR" />
+            android:icon="@drawable/ic_exit_black"
+            android:title="@string/menu_sair" />
 
     </group>
 

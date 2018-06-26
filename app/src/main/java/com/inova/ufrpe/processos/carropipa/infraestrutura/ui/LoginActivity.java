@@ -38,16 +38,15 @@ public class   LoginActivity extends AppCompatActivity {
         btn_logar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-                startActivity(autentication);
+                //Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
+                //startActivity(autentication);
                 //snippet para verificar o status da conexão
                 ConnectivityManager cm =
                         (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 //aqui pode gerar exception??
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                boolean isConnected = activeNetwork != null &&
-                        activeNetwork.isConnectedOrConnecting();
-                isConnected = false;
+                boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+                //isConnected = false;
                 if (isConnected){
 
                     String emailUser = edt_login.getText().toString();
@@ -94,15 +93,15 @@ public class   LoginActivity extends AppCompatActivity {
             //Criado para tratar a nova String vinda do Servidor;
 
             String[] resultado = results.split(",");
-            Log.d("OLHO NO LANCE!",resultado[1]);
+            //Log.d("OLHO NO LANCE!",resultado[1]);
 
             if(resultado[0].contains("login_ok")){
                 //exibir toast apenas para verificar os dados q chegam do servidor
                 Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-                //autentication.putExtra("nome",resultado[1]);
-                //autentication.putExtra("snome",resultado[2]);
                 autentication.putExtra("email",resultado[1]);
-                //autentication.putExtra("acesso",resultado[4]);
+                autentication.putExtra("nome",resultado[2]);
+                autentication.putExtra("snome",resultado[3]);
+                autentication.putExtra("rank",resultado[4]);
                 startActivity(autentication);
             }
             else {

@@ -19,4 +19,8 @@
         android:width="188dp"
         android:height="52dp"
         />
+    <stroke
+        android:width="3dp"
+        android:color="@color/secondaryLightColor"
+        />
 </shape>

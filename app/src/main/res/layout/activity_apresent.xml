@@ -32,7 +32,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/botao_redondo"
-        android:text="ENTRAR"
+        android:text="@string/btn_entrar"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="30sp"

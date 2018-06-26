@@ -13,20 +13,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.inova.ufrpe.processos.carropipa.R;
 
 public class M_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private String user_email;
+    private String user_name;
+    private String user_sname;
+    private String user_rank;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_m__main );
+        //Pega os dados vindos após o login
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
+        user_name = autentication.getStringExtra("nome");
+        user_sname = autentication.getStringExtra("snome");
+        user_rank = autentication.getStringExtra("rank");
+        //fim de Pega os dados vindos após o login
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
@@ -51,6 +60,9 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById( R.id.nav_view );
+        setNavUserName(navigationView, user_name, user_sname, user_rank); //seta nome e rank
+        setUserEmail(navigationView, user_email); //seta email
+        //setUserProfileImage(navigationView, imageUser); //quando implementar foto
         navigationView.setNavigationItemSelectedListener( this );
     }
 
@@ -124,5 +136,21 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         drawer.closeDrawer( GravityCompat.START );
         return true;
+    }
+//Esses 2 metodos setam os campos na navgationView
+    private void setUserEmail(NavigationView navView, String email) {
+
+        View headerView = navView.getHeaderView(0);
+        TextView userEmail = headerView.findViewById(R.id.tv_emaiiuser);
+        userEmail.setText(email);
+        userEmail.setTextColor(getResources().getColor(R.color.primaryTextColor));
+    }
+
+    private void setNavUserName(NavigationView navView, String nome, String segundoNome, String rank) {
+
+        View headerView = navView.getHeaderView(0);
+        TextView userName = headerView.findViewById(R.id.tv_nomeuser);
+        userName.setText(String.format("%s %s - Rank: %s", nome, segundoNome, rank));
+        userName.setTextColor(getResources().getColor(R.color.primaryTextColor));
     }
 }

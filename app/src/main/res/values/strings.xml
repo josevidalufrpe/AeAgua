@@ -4,9 +4,9 @@
     <string name="Password">Senha</string>
     <string name="app_title">Aê Água!</string>
     <string name="app_slogan">A solução para falta da água</string>
-    <string name="btn_entrar">Entrar</string>
+    <string name="btn_entrar">ENTRAR</string>
     <string name="campo_vazio">Este campo nao pode ser vazio!</string>
-    <string name="connection_failed">Falha na Conexão!</string>
+    <string name="connection_failed">Não tem Conexão com a Internet!</string>
     <string name="userPass_failed">Usuário ou Senha inválido!</string>
     <string name="title_activity_home_maps">Map</string>
     <string name="title_activity_m__main">M_MainActivity</string>
@@ -45,4 +45,10 @@
     <string name="cntDesc_userPass">icone para senha</string>
     <string name="cntDesc_userMail">icone para email</string>
     <string name="cntDesc_userName">icone para nome</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="menu_caminhao">Pedir Caminhão</string>
+    <string name="menu_pagamento">Pagamento</string>
+    <string name="menu_ajuda">Ajuda</string>
+    <string name="menu_sobre">Sobre</string>
+    <string name="menu_sair">Sair</string>
 </resources>

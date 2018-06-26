@@ -35,4 +35,14 @@
     <string name="edt_nome">Nome</string>
     <string name="criar_conta">Criar Conta</string>
     <string name="btn_salvar">SALVAR</string>
+    <string name="err_invalid_mail">Email inválido</string>
+    <string name="err_invalid_name">Nome inválido</string>
+    <string name="err_invalid_lastName">sobrenome inválido</string>
+    <string name="err_invalid_phoneNumber">Telefone inválido</string>
+    <string name="edt_sobrenome">Sobrenome</string>
+    <string name="cntDesc_userPhoto">icone para foto do usuário</string>
+    <string name="cntDesc_userPhone">icone para telefone</string>
+    <string name="cntDesc_userPass">icone para senha</string>
+    <string name="cntDesc_userMail">icone para email</string>
+    <string name="cntDesc_userName">icone para nome</string>
 </resources>

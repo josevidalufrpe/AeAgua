@@ -100,18 +100,18 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
         }
     }
 
-    public Boolean validarNome(String nome) {
+    private Boolean validarNome(String nome) {
 
         return nome.matches("^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)" +
                 "\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$");
     }
 
-    public Boolean validarSobrenome(String sobreNome) {
+    private Boolean validarSobrenome(String sobreNome) {
 
         return (sobreNome.matches("^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)" +
                 "\\s*?|(?:[A-Z][^\\s]*\\s*?)(?!.*[ ]$))+$"));
     }
-    public Boolean validarNumero(String numero) {
+    private Boolean validarNumero(String numero) {
 
         return numero.matches("^[0-9]{0,5}+$");
     }

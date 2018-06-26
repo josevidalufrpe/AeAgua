@@ -13,12 +13,13 @@ import java.util.Date;
  */
 
 public class ExternalStorage {
-
+/*
     public File criarImagem() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File pasta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return new File(pasta.getPath() + File.separator + "upkeep_" + timeStamp + ".jpg");
     }
+*/
 
     public File criarArquivo() throws IOException {
         /*

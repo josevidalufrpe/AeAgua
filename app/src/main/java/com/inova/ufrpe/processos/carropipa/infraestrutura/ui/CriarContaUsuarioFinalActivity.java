@@ -28,7 +28,6 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editTelefone;
     private EditText editSenha;
-    private ImageView imageUser;
     private String nome;
     private String sobrenome;
     private String email;
@@ -36,7 +35,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String senha;
     private String tipo;
     private String parametros = "";
-    String url = "http://192.168.15.148:5000/cadastro/cadastrar";
+    private final String url = "http://10.246.1.121:5000/cadastro/cadastrar";
 
 
     @Override
@@ -51,7 +50,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         editEmail = findViewById( R.id.editEmail );
         editTelefone = findViewById( R.id.editTelefone );
         editSenha = findViewById( R.id.editSenha );
-        imageUser = findViewById(R.id.img_user);
+        ImageView imageUser = findViewById(R.id.img_user);
         Button btn_criar = findViewById(R.id.btn_criarconta);
 
         //Spiner Tipos de Pessoa:
@@ -104,8 +103,8 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
         if (email.isEmpty() || senha.isEmpty() || celular.isEmpty() || nome.isEmpty()|| sobrenome.isEmpty()) {
             Toast.makeText( CriarContaUsuarioFinalActivity.this, getString( R.string.campo_vazio ), Toast.LENGTH_SHORT ).show();
 
-        }  else if (email.equals(editEmail.getHint()) || senha.equals(editSenha.getHint()) ||
-                nome.equals(editNome.getHint()) || sobrenome.equals(editSobreNome.getHint()) ||
+        }  else if (email.contentEquals(editEmail.getHint()) || senha.contentEquals(editSenha.getHint()) ||
+                nome.contentEquals(editNome.getHint()) || sobrenome.contentEquals(editSobreNome.getHint()) ||
                 celular.equals(editTelefone.getHint())) {
             Toast.makeText( CriarContaUsuarioFinalActivity.this, getString( R.string.campo_vazio ), Toast.LENGTH_SHORT ).show();
 

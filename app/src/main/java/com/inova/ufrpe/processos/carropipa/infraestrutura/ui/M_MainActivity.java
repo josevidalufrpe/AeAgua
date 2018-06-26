@@ -48,9 +48,9 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         //Pega os dados vindos após o login
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
-        user_name = autentication.getStringExtra("nome");
-        user_sname = autentication.getStringExtra("snome");
-        user_rank = autentication.getStringExtra("rank");
+        String user_name = autentication.getStringExtra("nome");
+        String user_sname = autentication.getStringExtra("snome");
+        String user_rank = autentication.getStringExtra("rank");
         //fim de Pega os dados vindos após o login
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
@@ -123,7 +123,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     //MENU
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

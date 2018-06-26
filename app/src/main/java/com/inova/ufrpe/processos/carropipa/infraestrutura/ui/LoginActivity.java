@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +17,11 @@ import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
 
-public class   LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private String url = "http://192.168.15.148:5000/login/logar";
+    private final String url = "http://10.246.1.121:5000/login/logar";
     private String parametros = "";
 
     @Override

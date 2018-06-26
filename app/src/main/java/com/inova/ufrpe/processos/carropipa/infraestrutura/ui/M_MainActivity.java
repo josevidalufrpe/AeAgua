@@ -3,6 +3,7 @@ package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,9 +21,6 @@ import com.inova.ufrpe.processos.carropipa.R;
 public class M_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private String user_email;
-    private String user_name;
-    private String user_sname;
-    private String user_rank;
 
 
     @Override
@@ -32,9 +30,9 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         //Pega os dados vindos após o login
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
-        user_name = autentication.getStringExtra("nome");
-        user_sname = autentication.getStringExtra("snome");
-        user_rank = autentication.getStringExtra("rank");
+        String user_name = autentication.getStringExtra("nome");
+        String user_sname = autentication.getStringExtra("snome");
+        String user_rank = autentication.getStringExtra("rank");
         //fim de Pega os dados vindos após o login
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
@@ -104,7 +102,7 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
     //MENU
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

@@ -11,14 +11,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,14 +25,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.hardware.ExternalStorage;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import com.inova.ufrpe.processos.carropipa.pessoa.persistence.PessoaDAO;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -232,7 +229,7 @@ public class PerfilActivity extends AppCompatActivity {
      * Retorna para o arquivo uma foto tirada pela camera do usuário
      */
     private void abreCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try{
             ExternalStorage externalStorage = new ExternalStorage();
@@ -284,7 +281,7 @@ public class PerfilActivity extends AppCompatActivity {
    de acordo com as constantes
     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
 
         switch (requestCode){
             case CAMERA:{
@@ -348,26 +345,26 @@ public class PerfilActivity extends AppCompatActivity {
     }
     private void verificarCampos(){
         if (cpf.getText().toString().trim().isEmpty()) {
-            cpf.setError("Campo Vazio");
+            cpf.setError(getString(R.string.err_emptyField));
         }
         else if (logradouro.getText().toString().trim().isEmpty()) {
-            logradouro.setError("Campo Vazio");
+            logradouro.setError(getString(R.string.err_emptyField));
         }
         else if (complemento.getText().toString().trim().isEmpty()) {
-            complemento.setError("Campo Vazio");
+            complemento.setError(getString(R.string.err_emptyField));
         }
 
         else if (bairro.getText().toString().trim().isEmpty()) {
-            bairro.setError("Campo Vazio");
+            bairro.setError(getString(R.string.err_emptyField));
         }
         else if (cidade.getText().toString().trim().isEmpty()) {
-            cidade.setError("Campo Vazio");
+            cidade.setError(getString(R.string.err_emptyField));
         }
         else if (cep.getText().toString().trim().isEmpty()) {
             cep.setError("Campo Vazio");
         }
-        else if (uf.equals( 0 )){
-            Toast.makeText( PerfilActivity.this,"Porfavor Informe Sua Unidade Federativa",Toast.LENGTH_LONG).show();
+        else if (uf.equals('0')){
+            Toast.makeText(PerfilActivity.this, R.string.err_informUF,Toast.LENGTH_LONG).show();
         }
         else if(validarNumero(cpf.getText().toString().trim() )&&validarNumero(cep.getText().toString().trim()) ){
             salvarPerfil();

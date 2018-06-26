@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.inova.ufrpe.processos.carropipa.R;
-import com.inova.ufrpe.processos.carropipa.motorista.ui.CriarContaMotoristaActivity;
 
 public class ApresentActivity extends AppCompatActivity {
 

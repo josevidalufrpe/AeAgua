@@ -26,7 +26,7 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="phone"
-        android:text="Telefone"
+        android:hint="@string/edt_telefone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
@@ -38,7 +38,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Seu Email"
+        android:hint="@string/edt_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editSobrenome" />
 
@@ -50,7 +50,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nome"
+        android:hint="@string/edt_nome"
         app:layout_constraintEnd_toStartOf="@+id/editSobrenome"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Sobrenome"
+        android:hint="@string/edt_sobrenome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
         android:layout_marginEnd="196dp"
         android:layout_marginTop="244dp"
         android:ems="10"
-        android:hint="Marca do Caminhão"
+        android:hint="@string/edt_marca_do_cam"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +85,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="240dp"
         android:ems="10"
-        android:hint="Placa"
+        android:hint="@string/edt_placa"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +97,7 @@
         android:layout_marginEnd="176dp"
         android:layout_marginTop="296dp"
         android:ems="10"
-        android:hint="Capacidade do Tanque"
+        android:hint="@string/edt_capacidade"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +110,7 @@
         android:layout_marginTop="348dp"
         android:ems="10"
         android:inputType="number"
-        android:text="Carteira de Motorista"
+        android:hint="@string/edt_cnh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,7 +123,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/botao_redondo"
-        android:text="Criar Conta"
+        android:text="@string/btn_criarConta"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="24sp"
         android:typeface="monospace"
@@ -144,6 +144,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/iconshuman" />
+        app:srcCompat="@drawable/iconshuman"
+        android:contentDescription="@string/cntDesc_motorista" />
 
 </android.support.constraint.ConstraintLayout>

@@ -51,4 +51,13 @@
     <string name="menu_ajuda">Ajuda</string>
     <string name="menu_sobre">Sobre</string>
     <string name="menu_sair">Sair</string>
+    <string name="cntDesc_logo">Logo tipo da aplicação</string>
+    <string name="cntDesc_motorista">Foto do Motorista</string>
+    <string name="edt_marca_do_cam">Marca do Caminhão</string>
+    <string name="edt_placa">Placa</string>
+    <string name="edt_capacidade">Capacidade do Tanque</string>
+    <string name="edt_cnh">Carteira de Motorista</string>
+    <string name="btn_criarConta">Criar Conta</string>
+    <string name="err_informUF">Porfavor Informe Sua Unidade Federativa</string>
+    <string name="err_emptyField">Campo Vazio</string>
 </resources>

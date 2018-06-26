@@ -195,17 +195,17 @@ public class PerfilActivity extends AppCompatActivity {
     private void salvarPerfil() {
 
         Pessoa pessoa = new Pessoa();
-        //cpf = findViewById(R.id.edt_cpf);
+        cpf = findViewById(R.id.edt_cpf);
         pessoa.setCpf(cpf.getText().toString());
-        //logradouro = findViewById(R.id.edt_logradouro);
+        logradouro = findViewById(R.id.edt_logradouro);
         pessoa.setLogradouro(logradouro.getText().toString());
-        //complemento = findViewById(R.id.edt_complemento);
+        complemento = findViewById(R.id.edt_complemento);
         pessoa.setComplemento(complemento.getText().toString());
-        //cidade = findViewById(R.id.edt_cidade);
+        cidade = findViewById(R.id.edt_cidade);
         pessoa.setCidade(cidade.getText().toString());
-        //bairro = findViewById(R.id.edt_bairro);
+        bairro = findViewById(R.id.edt_bairro);
         pessoa.setBairro(bairro.getText().toString());
-        //cep = findViewById(R.id.edt_cep);
+        cep = findViewById(R.id.edt_cep);
         pessoa.setCep(cep.getText().toString());
 
         PessoaDAO pessoaDAO = new PessoaDAO();

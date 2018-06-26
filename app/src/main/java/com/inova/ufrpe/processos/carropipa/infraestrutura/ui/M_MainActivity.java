@@ -46,6 +46,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_m__main );
         //Pega os dados vindos após o login
+        checkPermission();
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
         String user_name = autentication.getStringExtra("nome");
@@ -57,20 +58,6 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         mapFragment.getMapAsync( this );
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        // BOTÃO DA POSIÇÃO NO MAPA
-        //FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
-        //fab.setOnClickListener( new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View view) {
-        //        goToCurrentLocation(localizacao);
-               // chama o mapa
-                //FragmentManager fm = getFragmentManager();
-                //fm.beginTransaction().replace( R.id.context_frame, new HomeMapsActivity() ).commit();
-               // Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-               //         .setAction( "Action", null ).show();
-
-        //    }
-        //} );
 
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

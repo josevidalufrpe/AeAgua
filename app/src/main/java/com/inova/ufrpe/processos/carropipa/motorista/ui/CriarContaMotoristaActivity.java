@@ -28,6 +28,7 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
     private String celular;
     private String senha;
     private String parametros = "";
+    private final String url = "http://10.246.1.121:5000/cadastro/cadastrar_motorista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,6 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
             boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnectedOrConnecting();
             if (isConnected){
-
-                String url = "http://192.168.15.148:5000/cadastro/cadastrar_motorista";
                 parametros = "email=" + email +"&senha=" + senha +"&celular=" + celular +"&sobrenome=" + sobrenome +"&nome=" + nome;
                 new SolicitaDados().execute(url);
             }

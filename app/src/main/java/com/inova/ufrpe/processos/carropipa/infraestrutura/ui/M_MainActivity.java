@@ -47,7 +47,6 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
                 fm.beginTransaction().replace( R.id.context_frame, new HomeMapsActivity() ).commit();
                // Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
                //         .setAction( "Action", null ).show();
-
             }
         } );
 
@@ -87,16 +86,12 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent perfilAct= new Intent(M_MainActivity.this,PerfilActivity.class);
             startActivity(perfilAct);
-
-
             return true;
         }
-
         return super.onOptionsItemSelected( item );
     }
     //MENU
@@ -117,17 +112,13 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
                 startActivity(solicitarAct);
                 break;
             case R.id.nav_pagamento:
-
                 break;
             case R.id.nav_ajuda:
-
                 break;
             case R.id.nav_sobre:
-
                 break;
             case R.id.nav_sair:
                 finish();
-
                 break;
         }
 

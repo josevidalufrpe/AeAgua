@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<form action="" method="post">
+  {{form.csrf_token}}
+<div class="form-group">
+  <label for="username">Login</label>
+  {{form.username(_class="form-control", placeholder="Nome de Usuário")}}
+  {% if form.errors.username %}
+  <div class="alert alert-danger" role="alert"> Este campo é obrigatório</div>
+  {%endif%}
+</div>
+<div class="form-group">
+  <label for="password">Senha</label>
+  {{form.password(_class="form-control")}}
+  {% if form.errors.username %}
+  <div class="alert alert-danger" role="alert"> Este campo é obrigatório</div>
+  {%endif%}
+</div>
+<div class="form-group form-check">
+  {{form.rememberme(_class="form-check-input")}}
+  <label class="form-check-label" for="exampleCheck1">Lembrar de mim</label>
+</div>
+<button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{%endblock%}

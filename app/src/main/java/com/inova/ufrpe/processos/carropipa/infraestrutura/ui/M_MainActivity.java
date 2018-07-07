@@ -29,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 
 public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
@@ -37,7 +38,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private String user_sname;
     private String user_rank;
     private LocationManager locationManager;
-    private Location localizacao;
+    public static Location localizacao;
     private static final int REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
 
@@ -246,6 +247,8 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     public void goToCurrentLocation(Location location){
         if(location!= null){
             localizacao = location;
+
+
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);

@@ -7,10 +7,24 @@
     android:background="@color/common_google_signin_btn_text_dark_pressed"
     tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.SolicitarActivity">
 
+    <Spinner
+        android:id="@+id/spn_qtd"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_solicitar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
+        app:layout_constraintVertical_bias="0.48000002" />
+
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="395dp"
-        android:layout_height="399dp"
+        android:layout_height="304dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/cntDesc_logo"
@@ -20,20 +34,21 @@
         app:srcCompat="@drawable/logo_semfundo" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_solicitar"
         android:layout_width="387dp"
         android:layout_height="74dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/botao_redondo"
         android:text="@string/solicitar_agora"
         android:textColor="@color/primaryTextColor"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/spn_qtd"
+        app:layout_constraintVertical_bias="0.885" />
 </android.support.constraint.ConstraintLayout>

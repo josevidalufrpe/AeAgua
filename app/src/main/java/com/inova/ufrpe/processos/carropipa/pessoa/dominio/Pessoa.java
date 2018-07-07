@@ -1,7 +1,10 @@
 package com.inova.ufrpe.processos.carropipa.pessoa.dominio;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 public class Pessoa implements Parcelable {
 
@@ -13,6 +16,26 @@ public class Pessoa implements Parcelable {
     private String bairro;
     private String cep;
     private String uf;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    private Usuario usuario;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    private String nome;
 
     public Long getId() {
         return id;

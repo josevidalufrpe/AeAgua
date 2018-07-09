@@ -1,11 +1,13 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -48,7 +50,8 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
     private Pedido pedido;
-
+    private String destinolongitude;
+    private String destinolatitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,8 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 pedido.setQuantidade( dataSnapshot.child( "quantidade" ).getValue().toString() );
                 Pessoa pessoa = new Pessoa();
                 pessoa.setNome( dataSnapshot.child( "cliente" ).child( "pessoa" ).child("nome").getValue().toString() );
-
+                destinolatitude = dataSnapshot.child("latitude" ).getValue().toString();
+                destinolongitude = dataSnapshot.child("longitude" ).getValue().toString();
                 // tela de aceitação de chamado
                 AlertDialog.Builder chamado = new AlertDialog.Builder(M_MainActivity.this);
                 View ViewChamado = getLayoutInflater().inflate(R.layout.activity_chamado, null);
@@ -89,8 +93,19 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                         Toast.makeText( getApplicationContext(),"Chamado Aceito ",Toast.LENGTH_LONG ).show();
                         //Chama o mapa
                         dialog2.dismiss();
+                        try {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                      Uri.parse("http://maps.google.com/maps?saddr=&daddr=" + destinolatitude + "," + destinolongitude));
 
-                    }
+                              intent.setComponent(new ComponentName(getString(R.string.comandoAppMaps), getString(R.string.comandoMapsActivity)));
+
+                              startActivity(intent);
+                        } catch (Exception ex) {
+                              ex.printStackTrace();
+                              Toast.makeText(M_MainActivity.this, R.string.erroNaoTemGoogleMaps, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
                 });
 
 

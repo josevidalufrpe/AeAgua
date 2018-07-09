@@ -60,4 +60,8 @@
     <string name="btn_criarConta">Criar Conta</string>
     <string name="err_informUF">Porfavor Informe Sua Unidade Federativa</string>
     <string name="err_emptyField">Campo Vazio</string>
+    <string name="erroNaoTemGoogleMaps">Verifique se o Google Maps está instalado em seu dispositivo</string>
+    <string name="comandoAppMaps">com.google.android.apps.maps</string>
+    <string name="comandoMapsActivity">com.google.android.maps.MapsActivity</string>
+
 </resources>

@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 
 public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
@@ -38,9 +40,10 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private String user_sname;
     private String user_rank;
     private LocationManager locationManager;
-    public static Location localizacao;
+    public  static Location localizacao;
     private static final int REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
+    private Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +129,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivity(solicitarAct);
                 break;
             case R.id.nav_pagamento:
-
+                onMapReady( mMap );
                 break;
             case R.id.nav_ajuda:
 
@@ -200,6 +203,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
+                    localizacao = location;
                 }
 
                 @Override
@@ -217,6 +221,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 }
             });
+            localizacao = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             mMap.setMyLocationEnabled(true);
@@ -224,6 +229,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
+                    localizacao = location;
                 }
 
                 @Override
@@ -242,12 +248,13 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 }
             });
         }
+        localizacao = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
     public void goToCurrentLocation(Location location){
         if(location!= null){
             localizacao = location;
-
+            Toast.makeText( getApplicationContext(),"Pegou localização",Toast.LENGTH_LONG ).show();
 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();

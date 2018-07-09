@@ -15,7 +15,6 @@ import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.motorista.dominio.EnumQuatd;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
-import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
@@ -34,6 +33,7 @@ public class SolicitarActivity extends AppCompatActivity {
 
         quantidade = findViewById(R.id.spn_qtd);
         pedido = new Pedido();
+
         ArrayAdapter<String> enumStadosArrayAdapter;
         enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumQuatd.EnumQuatdLista());
         quantidade.setAdapter(enumStadosArrayAdapter);

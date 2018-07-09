@@ -1,10 +1,15 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
-import android.app.FragmentManager;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,42 +19,113 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 
-public class M_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.HashMap;
+
+public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
 
     private String user_email;
+    private FirebaseDatabase database;
+    private LocationManager locationManager;
+    private Location localizacao;
+    private static final int REQUEST_FINE_LOCATION = 1;
+    private GoogleMap mMap;
+    private Pedido pedido;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_m__main );
+        checkPermission();
+        database = FirebaseDatabase.getInstance();
+        pedido = new Pedido();
+        DatabaseReference myRef = database.getReference("pedido").child("100");//bota cpf do cara
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                pedido.setQuantidade( dataSnapshot.child( "quantidade" ).getValue().toString() );
+                Pessoa pessoa = new Pessoa();
+                pessoa.setNome( dataSnapshot.child( "cliente" ).child( "pessoa" ).child("nome").getValue().toString() );
+
+                // tela de aceitação de chamado
+                AlertDialog.Builder chamado = new AlertDialog.Builder(M_MainActivity.this);
+                View ViewChamado = getLayoutInflater().inflate(R.layout.activity_chamado, null);
+                TextView textviewNomeCliente = ViewChamado.findViewById( R.id.tv_nomeC );
+                TextView textviewQuantidade = ViewChamado.findViewById( R.id.tv_quantidade );
+                textviewNomeCliente.setText( pessoa.getNome() );
+                textviewQuantidade.setText( pedido.getQuantidade() );
+                Button botaoAceitar = ViewChamado.findViewById(R.id.btn_aceitar );
+                Button botaoNegar = ViewChamado.findViewById( R.id.btn_negar );
+
+
+
+                chamado.setView(ViewChamado);
+                final AlertDialog dialog2 = chamado.create();
+                dialog2.show();
+
+                botaoAceitar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText( getApplicationContext(),"Chamado Aceito ",Toast.LENGTH_LONG ).show();
+                        //Chama o mapa
+                        dialog2.dismiss();
+
+                    }
+                });
+
+
+                botaoNegar.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText( getApplicationContext(),"Chamado Negado ",Toast.LENGTH_LONG ).show();
+                        dialog2.dismiss();
+                    }
+                } );
+
+
+                //Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText( getApplicationContext(),"Errou ao Baixar",Toast.LENGTH_LONG ).show();
+                //Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
         //Pega os dados vindos após o login
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
         String user_name = autentication.getStringExtra("nome");
         String user_sname = autentication.getStringExtra("snome");
         String user_rank = autentication.getStringExtra("rank");
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById( R.id.map );
+        mapFragment.getMapAsync( this );
         //fim de Pega os dados vindos após o login
-
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        // BOTÃO DA POSIÇÃO NO MAPA
-        FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
-        fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // chama o mapa
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace( R.id.context_frame, new HomeMapsActivity() ).commit();
-               // Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-               //         .setAction( "Action", null ).show();
-            }
-        } );
-
         DrawerLayout drawer = (DrawerLayout) findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
@@ -141,5 +217,97 @@ public class M_MainActivity extends AppCompatActivity implements NavigationView.
         TextView userName = headerView.findViewById(R.id.tv_nomeuser);
         userName.setText(String.format("%s %s - Rank: %s", nome, segundoNome, rank));
         userName.setTextColor(getResources().getColor(R.color.primaryTextColor));
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        updateLocation();
+
+    }
+
+    private void checkPermission() {
+        boolean permissionFineLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+        boolean permissionCoarseLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+
+        if (permissionFineLocation && permissionCoarseLocation) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_FINE_LOCATION: {
+                updateLocation();
+            }
+        }
+    }
+
+    public void updateLocation() {
+        checkPermission();
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED /*&& ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            goToCurrentLocation(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            mMap.setMyLocationEnabled(true);
+            goToCurrentLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+    }
+
+    public void goToCurrentLocation(Location location){
+        if(location!= null){
+            localizacao = location;
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));}
     }
 }

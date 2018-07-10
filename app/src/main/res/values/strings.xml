@@ -60,4 +60,6 @@
     <string name="btn_criarConta">Criar Conta</string>
     <string name="err_informUF">Porfavor Informe Sua Unidade Federativa</string>
     <string name="err_emptyField">Campo Vazio</string>
+    <string name="erroEnumQtd">Escolha uma quantidade de água porfavor</string>
+    <string name="trueEnumQtd">Pedido Enviado</string>
 </resources>

@@ -14,15 +14,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
+import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private final String url = "http://10.246.1.121:5000/login/logar";
+    //private final String url = "http://10.246.1.121:5000/login/logar";
+    private final String url = "http://10.246.217.119:5000/login/logar";
     private String parametros = "";
+    private Usuario usuario= new Usuario();
+    private Pessoa pessoa = new Pessoa();
+    private Cliente cliente = new Cliente();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +44,15 @@ public class LoginActivity extends AppCompatActivity {
         btn_logar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-                startActivity(autentication);
+                //Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
+                //startActivity(autentication);
                 //snippet para verificar o status da conexão
                 ConnectivityManager cm =
                         (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 //aqui pode gerar exception??
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-                isConnected = false;
+                //isConnected = false;
                 if (isConnected){
 
                     String emailUser = edt_login.getText().toString();
@@ -97,10 +104,19 @@ public class LoginActivity extends AppCompatActivity {
             if(resultado[0].contains("login_ok")){
                 //exibir toast apenas para verificar os dados q chegam do servidor
                 Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
+                usuario.setEmail( resultado[1] );
+                pessoa.setNome( resultado[2] );
+                pessoa.setSnome( resultado[3] );
+                //cliente.setRank( resultado[4] );//esta retornando null (troca para 0.0)
+
+                pessoa.setUsuario( usuario );
+                cliente.setPessoa( pessoa );
+
                 autentication.putExtra("email",resultado[1]);
                 autentication.putExtra("nome",resultado[2]);
                 autentication.putExtra("snome",resultado[3]);
                 autentication.putExtra("rank",resultado[4]);
+                autentication.putExtra( "cliente",cliente );
                 startActivity(autentication);
             }
             else {

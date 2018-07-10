@@ -33,6 +33,8 @@ import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 
+import java.io.Serializable;
+
 public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private String user_email;
@@ -43,7 +45,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     public  static Location localizacao;
     private static final int REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
-    private Cliente cliente;
+    private Cliente cliente = new Cliente();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         String user_name = autentication.getStringExtra("nome");
         String user_sname = autentication.getStringExtra("snome");
         String user_rank = autentication.getStringExtra("rank");
+        //passando objeto teste
+        cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
         //fim de Pega os dados vindos após o login
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
@@ -122,14 +126,15 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
             case R.id.nav_perfil:
                 Intent perfilAct = new Intent(M_MainActivity.this, PerfilActivity.class);
                 perfilAct.putExtra("email", user_email);
+                perfilAct.putExtra("cliente",cliente);
                 startActivity(perfilAct);
                 break;
             case R.id.nav_pedir:
                 Intent solicitarAct = new Intent(M_MainActivity.this, SolicitarActivity.class);
+                solicitarAct.putExtra( "cliente",cliente);
                 startActivity(solicitarAct);
                 break;
             case R.id.nav_pagamento:
-                onMapReady( mMap );
                 break;
             case R.id.nav_ajuda:
 
@@ -254,7 +259,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     public void goToCurrentLocation(Location location){
         if(location!= null){
             localizacao = location;
-            Toast.makeText( getApplicationContext(),"Pegou localização",Toast.LENGTH_LONG ).show();
+            Toast.makeText( getApplicationContext(),"Pegamos sua localização",Toast.LENGTH_LONG ).show();
 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();

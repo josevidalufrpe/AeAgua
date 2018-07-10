@@ -3,7 +3,9 @@ package com.inova.ufrpe.processos.carropipa.pedido.dominio;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
 
-public class Pedido {
+import java.io.Serializable;
+
+public class Pedido implements Serializable {
     private int id;
 
     public Cliente getCliente() {

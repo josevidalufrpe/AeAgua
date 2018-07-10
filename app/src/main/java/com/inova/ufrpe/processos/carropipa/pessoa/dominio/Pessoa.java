@@ -6,7 +6,9 @@ import android.os.Parcelable;
 
 import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
-public class Pessoa implements Parcelable {
+import java.io.Serializable;
+
+public class Pessoa implements Parcelable, Serializable   {
 
     private Long id;
     private String cpf;
@@ -36,6 +38,17 @@ public class Pessoa implements Parcelable {
     }
 
     private String nome;
+
+    public String getSnome() {
+        return snome;
+    }
+
+    public void setSnome(String snome) {
+        this.snome = snome;
+    }
+
+    private String snome;
+
 
     public Long getId() {
         return id;

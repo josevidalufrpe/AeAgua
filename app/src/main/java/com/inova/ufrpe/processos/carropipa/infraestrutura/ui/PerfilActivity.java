@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.hardware.ExternalStorage;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
@@ -49,6 +50,7 @@ public class PerfilActivity extends AppCompatActivity {
     private Spinner uf;
     private ImageView imageUser;
     private String user_email;
+    private Cliente cliente = new Cliente();
 
 
     @Override
@@ -66,6 +68,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
+        cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
 
         Button limpar = findViewById(R.id.btn_limpar);
         Button enviar = findViewById(R.id.btn_enviar);

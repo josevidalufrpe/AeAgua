@@ -35,8 +35,8 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String senha;
     private String tipo;
     private String parametros = "";
-    private final String url = "http://10.246.1.121:5000/cadastro/cadastrar";
-
+    private final String url = "http://10.246.217.119:5000/cadastro/cadastrar";
+    //private final String url = "http://192.168.1.101:5000/cadastro/cadastrar";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,11 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
                 celular.equals(editTelefone.getHint())) {
             Toast.makeText( CriarContaUsuarioFinalActivity.this, getString( R.string.campo_vazio ), Toast.LENGTH_SHORT ).show();
 
-        } else {
+        } else if(tipo.equals( "Escolha o Tipo de Pessoa" )){
+            Toast.makeText( CriarContaUsuarioFinalActivity.this,"Campo vazio *Tipo de Pessoa*", Toast.LENGTH_SHORT ).show();
+
+        }
+        else {
             verificarEntradas();
         }
     }
@@ -170,6 +174,7 @@ A classe interna a seguir conecta a internet e envia informações em segundo pl
         }
 
         //exibe os resultados
+        //TODO criar uma validação para email já existente
         @Override
         protected void onPostExecute(String results){
 

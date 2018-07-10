@@ -3,7 +3,9 @@ package com.inova.ufrpe.processos.carropipa.motorista.dominio;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Motorista implements Parcelable {
+import java.io.Serializable;
+
+public class Motorista implements Parcelable, Serializable {
 
     private Long id;
     private String cpf;

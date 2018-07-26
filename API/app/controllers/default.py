@@ -6,13 +6,17 @@ from flask_login import login_user
 from flask_login import logout_user
 from app import db
 from app import lm
+
+#import das tabelas
 from app.models.forms import LoginForm
 from app.models.forms import CadastrarForm
 from app.models.tables import User
 from app.models.tables import Pessoa
 from app.models.tables import PessoaFisica
+from app.models.tables import PessoaJuridica
 from app.models.tables import Cliente
-
+from app.models.tables import Endereco
+from app.models.tables import Motorista
 
 
 @carropipa.route("/")
@@ -42,13 +46,32 @@ def registrar():
             db.session.commit()
             u = Pessoa.query.filter_by(user_id=u.id).first()
             pessoa_id = u.id
-            i = PessoaFisica(None, nome,sobrenome,pessoa_id)
+            i = PessoaFisica(None, nome,sobrenome,pessoa_id,celular)
             db.session.add(i)
             db.session.commit()
             i = Cliente(None, 0, user_id, pessoa_id )
             db.session.add(i)
             db.session.commit()
+            #c = Cliente.query.filter_by(pessoa_id=u.id).first()
             return "cadastration_ok,{},{}".format(nome, sobrenome)  #um dia retornar .Json
+        
+        elif u and tipo=="Pessoa Juridica":
+            
+            user_id = u.id
+            i = Pessoa(tipo, user_id)
+            db.session.add(i)
+            db.session.commit()
+            u = Pessoa.query.filter_by(user_id=u.id).first()
+            pessoa_id = u.id
+            i = PessoaJuridica(None,nome,pessoa_id)
+            db.session.add(i)
+            db.session.commit()
+            i = Cliente(None, 0, user_id, pessoa_id )
+            db.session.add(i)
+            db.session.commit()
+            #c = Cliente.query.filter_by(pessoa_id=u.id).first()
+            return "cadastration_ok,{},{}".format(nome, sobrenome)  #um dia retornar .Json
+
         else:
             return "cadastration_fail"
 
@@ -75,7 +98,7 @@ def registrar_motorista():
             db.session.commit()
             u = Pessoa.query.filter_by(user_id=u.id).first()
             pessoa_id = u.id
-            i = PessoaFisica(None, nome,sobrenome,pessoa_id)
+            i = PessoaFisica(None, nome,sobrenome,pessoa_id,celular)
             db.session.add(i)
             db.session.commit()
             i = Motorista(cnh, '0',0, user_id, pessoa_id )
@@ -84,42 +107,50 @@ def registrar_motorista():
             return "cadastration_ok,{},{}".format(nome, sobrenome)  #um dia retornar .Json
         else:
             return "cadastration_fail"
-"""
 @carropipa.route("/cadastro/criar_perfil", methods=["GET","POST"])
 def criar_perfil():
     if request.method=="POST":
         login = request.form.get("usermail")
+        senha = request.form.get('senha')
         print("login:",login)
+        #informação de pessoa
         nome = request.form.get('nome')
-        print("Nome:", nome)
         sobrenome = request.form.get('sobrenome')
         telefone = request.form.get('telefone')
-        senha = request.form.get('senha')
+        cpf = request.form.get('cpf')
+        #informação de perfil
+        logradouro = request.form.get('logradouro')
+        complemento = request.form.get('complemento')
+        bairro = request.form.get('bairro')
+        cep = request.form.get('cep')
+        cidade = request.form.get('cidade')
+        uf = request.form.get('uf')
 
-        u = User(login, senha)
-        db.session.add(u)
-        db.session.commit(u)
+        #printando
+        u = User.query.filter_by(usermail = login,password = senha).first()
         print("usuário",u)
         if u:
             p = Pessoa.query.filter_by(user_id=u.id).first()
             print(p)
-            if p:
-                #i = Pessoa(p.name, p.lastname, cpf, p.telefone, 0, p.user_id)
-                db.session.update(dict(cpf=cpf))
-                #db.session.commit()
-                e = Endereco(logradouro, complemento, bairro, cep, cidade, uf, p.id)
-                db.session.add(e)
+            if p.tipo=='Pessoa Física':
+                pf = PessoaFisica.query.filter_by(pessoa_id = p.id).update(dict(cpf=cpf))
+                db.session.commit()
+                e = Endereco.query.filter_by(pessoa_id = p.id).first()
+                if e:
+                    e = Endereco.query.filter_by(pessoa_id = p.id).update(dict(logradouro = logradouro, complemento = complemento, bairro = bairro, cep = cep, cidade = cidade, uf = uf))
+                else:    
+                    e = Endereco(logradouro, complemento, bairro, cep, cidade, uf, p.id)
+                    db.session.add(e)
                 db.session.commit()
                 return "cadastration_ok,"
             else:
-                return "cadastration_fail,"
+                return "cadastration_fail, pessoa não encontrado"
         else:
              return "cadastration_fail, usuario não encontrado"
     else:
         return "cadastration_fail, metodo não permitido"
 
-"""
-
+'''
 @carropipa.route("/cadastrar",  methods=["GET","POST"])
 def cadastrar():
     formulario = CadastrarForm()
@@ -132,7 +163,7 @@ def cadastrar():
         flash('cadastrado com sucesso')
 
     return render_template('cadastro.html', form=formulario)
-
+'''
 
 @carropipa.route("/login/logar", methods=['GET', 'POST'])
 def logar():
@@ -142,16 +173,26 @@ def logar():
         u = User.query.filter_by(usermail=login).first()
         if u and u.password == senha:
             p = Pessoa.query.filter_by(user_id=u.id).first()
-            cliente_rank =  Cliente.query.filter_by(user_id=u.id).first().rank
+            c =  Cliente.query.filter_by(user_id=u.id).first()
             if p.tipo == "Pessoa Física":
                 p_tipo = PessoaFisica.query.filter_by(pessoa_id=p.id).first()
+                if p_tipo.cpf == '0' or p_tipo.telefone == 'x xxxx xxxx':
+                    return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank )
+                else:
+                    return "login_ok,{},{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,p_tipo.cpf,p_tipo.telefone,c.id,c.rank )   
+
+
             else:
-                p_tipo = PessoaFisica.query.filter_by(pessoa_id=p.id).first()
-            return "login_ok,{},{},{},{}".format(u.usermail, p_tipo.nome, p_tipo.sobrenome, cliente_rank )
+                #deveria ser juridica
+                p_tipo = PessoaJuridica.query.filter_by(pessoa_id=p.id).first()
+                if p_tipo.cnpj == '0':
+                    return "login_ok,{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,c.id,c.rank )
+                else:
+                    return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,p_tipo.cnpj,c.id,c.rank )
         else:
             return "login_denied"
 
-"""
+
 @carropipa.route("/login/logar_motorista", methods=['GET', 'POST'])
 def logar_motorista():
     if request.method=='POST':
@@ -164,7 +205,7 @@ def logar_motorista():
 
 
 
-@carropipa.route("/login", methods=["post","get"])
+@carropipa.route("/perfil", methods=["post","get"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -176,4 +217,26 @@ def login():
     else:
         print(form.errors)
     return render_template('login.html', form=form)
-"""
+
+@carropipa.route("/login/getperfil", methods=["post","get"])
+def getPerfil():
+    if request.method=='POST':
+        p_tipo = True
+        login,senha = request.form.get('email'), request.form.get('senha')
+        u = User.query.filter_by(usermail=login).first()
+        if u and u.password == senha:
+            p = Pessoa.query.filter_by(user_id=u.id).first()
+            c =  Cliente.query.filter_by(user_id=u.id).first()
+            if p.tipo == "Pessoa Física":
+                p_tipo = PessoaFisica.query.filter_by(pessoa_id=p.id).first()
+                if p_tipo.cpf == '0' or p_tipo.telefone == 'x xxxx xxxx':
+                    return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank )
+                else:
+                    return "login_ok,{},{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,p_tipo.cpf,p_tipo.telefone,c.id,c.rank )        
+            else:
+                #deveria ser juridica
+                p_tipo = PessoaJuridica.query.filter_by(pessoa_id=p.id).first()
+                if p_tipo.cnpj == '0':
+                    return "login_ok,{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,c.id,c.rank )
+                else:
+                    return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,p_tipo.cnpj,c.id,c.rank )

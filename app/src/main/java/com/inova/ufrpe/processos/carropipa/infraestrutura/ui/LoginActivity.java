@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    //private final String url = "http://10.246.1.121:5000/login/logar";
     private final String url = "http://10.246.217.119:5000/login/logar";
+    //private final String url = "http://192.168.1.101:5000/login/logar";
     private String parametros = "";
     private Usuario usuario= new Usuario();
     private Pessoa pessoa = new Pessoa();
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        AtivarGps();
         Button btn_logar = findViewById(R.id.btn_logar);
         edt_login = findViewById(R.id.edt_login);
         edt_senha = findViewById(R.id.edt_senha);
@@ -100,15 +101,33 @@ public class LoginActivity extends AppCompatActivity {
 
             String[] resultado = results.split(",");
             //Log.d("OLHO NO LANCE!",resultado[1]);
-
+            //TODO falta verificar se é juridica ou fisica
+            // está so pegando a resposta de fisica
             if(resultado[0].contains("login_ok")){
                 //exibir toast apenas para verificar os dados q chegam do servidor
                 Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-                usuario.setEmail( resultado[1] );
-                pessoa.setNome( resultado[2] );
-                pessoa.setSnome( resultado[3] );
-                //cliente.setRank( resultado[4] );//esta retornando null (troca para 0.0)
+                //Criar objeto usuario
+                usuario.setId( Integer.parseInt( resultado[1] )  );
+                usuario.setEmail( resultado[2] );
+                usuario.setSenha(resultado[3]  );
+                //Criar objeto pessoa
+                pessoa.setId( Long.valueOf( resultado[4] ) );
+                pessoa.setNome( resultado[5]   );
+                pessoa.setSnome( resultado[6] );
+                if(resultado.length == 11){
+                    pessoa.setCpf( resultado[7] );
+                    pessoa.setTelefone( resultado[8] );
+                    cliente.setId( Integer.parseInt( resultado[9] ) );
+                    cliente.setRank( resultado[10] );
+                }
+                else{
+                    pessoa.setCpf( "0" );
+                    cliente.setId( Integer.parseInt( resultado[7] ) );
+                    cliente.setRank( resultado[8] );
 
+                }
+
+                //Unir todos objeto em 1 só
                 pessoa.setUsuario( usuario );
                 cliente.setPessoa( pessoa );
 
@@ -117,11 +136,24 @@ public class LoginActivity extends AppCompatActivity {
                 autentication.putExtra("snome",resultado[3]);
                 autentication.putExtra("rank",resultado[4]);
                 autentication.putExtra( "cliente",cliente );
+
                 startActivity(autentication);
             }
             else {
                 Toast.makeText(LoginActivity.this, getString(R.string.userPass_failed), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+    public void AtivarGps(){
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        //Se vier null ou length == 0   é por que o GPS esta desabilitado.
+        //Para abrir a tela do menu pode fazer assim:
+
+        if (provider.length()==0 ||provider.equals( null )){
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 1);
         }
     }
 }

@@ -19,6 +19,16 @@ public class Pessoa implements Parcelable, Serializable   {
     private String cep;
     private String uf;
 
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    private String telefone;
+
     public Usuario getUsuario() {
         return usuario;
     }

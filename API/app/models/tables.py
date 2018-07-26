@@ -1,6 +1,5 @@
 from app import db
 
-
 class User(db.Model):
 
     __tablename__ = 'users'
@@ -39,6 +38,7 @@ class Pessoa(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
 
     user = db.relationship('User', foreign_keys=user_id)
 
@@ -48,36 +48,38 @@ class Pessoa(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return '<User %r rate: %f>' % (self.tipo+" "+self.user_id)
+        return '<Tipo de Pessoa: %r \n User id: %r>' % (self.tipo, self.user_id)
 
 class PessoaFisica(db.Model):
 
     __tablename__ = 'pessoasfisicas'
     id = db.Column(db.Integer, primary_key=True)
-    cpf = db.Column(db.String)
+    cpf = db.Column(db.String, default='0')
     nome = db.Column(db.String)
     sobrenome = db.Column(db.String)
+    telefone = db.Column(db.String, default='x xxxx xxxx')
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey('pessoas.id'))
 
     pessoa = db.relationship('Pessoa', foreign_keys=pessoa_id)
 
-    def __init__(self, cpf, nome, sobrenome, pessoa_id):
+    def __init__(self, cpf, nome, sobrenome, pessoa_id,telefone):
         self.cpf = cpf
         self.nome = nome
         self.sobrenome = sobrenome
         self.pessoa_id = pessoa_id
+        self.telefone = telefone
 
 
     def __repr__(self):
-        return '<Pessoa: %r %r pessoa id: %r>' % (self.nome, self.sobrenome, self.pessoa_id)
+        return '<Pessoa: %r %r pessoa id: %r telefone: %r>' % (self.nome, self.sobrenome, self.pessoa_id, self.telefone)
 
 
 class PessoaJuridica(db.Model):
 
     __tablename__ = 'pessoasjuridicas'
     id = db.Column(db.Integer, primary_key=True)
-    cnpj = db.Column(db.String)
+    cnpj = db.Column(db.String, default = '0')
     nome = db.Column(db.String)
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey('pessoas.id'))
@@ -85,7 +87,7 @@ class PessoaJuridica(db.Model):
     pessoa = db.relationship('Pessoa', foreign_keys=pessoa_id)
 
     def __init__(self, cnpj, nome, pessoa_id):
-        self.cpf = cpf
+        self.cnpj = cnpj
         self.nome = nome
         self.pessoa_id = pessoa_id
 
@@ -98,9 +100,9 @@ class Motorista(db.Model):
 
     __tablename__ = 'motoristas'
     id = db.Column(db.Integer, primary_key=True)
-    cnh = db.Column(db.String)
+    cnh = db.Column(db.String, default = '0')
     entregas = db.Column(db.String)
-    rank = db.Column(db.Float)
+    rank = db.Column(db.Float, default = 0.0)
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey('pessoas.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -109,7 +111,7 @@ class Motorista(db.Model):
     usuario = db.relationship('User', foreign_keys=user_id)
 
     def __init__(self, cnh, entregas, rank, user_id, pessoa_id):
-        self.cnh = cpf
+        self.cnh = cnh
         self.entregas = entregas
         self.rank = rank
         self.user_id = user_id
@@ -124,8 +126,8 @@ class Cliente(db.Model):
 
     __tablename__ = 'clientes'
     id = db.Column(db.Integer, primary_key=True)
-    carteira = db.Column(db.String)
-    rank = db.Column(db.Float)
+    carteira = db.Column(db.String, default='0')
+    rank = db.Column(db.Float, default=0.0)
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey('pessoas.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -215,3 +217,28 @@ class Pagamento(db.Model):
     def __init__(self, descricao, pedido_id):
         self.descricao = descricao
         self.pedido_id = pedido_id
+
+class Endereco(db.Model):
+    __tablename__ = 'endereco'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    logradouro =  db.Column(db.String)
+    complemento = db.Column(db.String)
+    bairro =      db.Column(db.String)
+    cep =         db.Column(db.Integer)
+    cidade =      db.Column(db.String)
+    uf =          db.Column(db.String)
+    pessoa_id =    db.Column(db.Integer, db.ForeignKey('pessoas.id'))
+
+    pessoa = db.relationship('Pessoa', foreign_keys=pessoa_id)
+
+    def __init__(self, logradouro, complemento, bairro, cep, cidade, uf, pessoa_id):
+        self.logradouro = logradouro
+        self.complemento = complemento
+        self.bairro = bairro
+        self.cep =cep
+        self.cidade =cidade
+        self.uf =uf
+        self.pessoa_id = pessoa_id
+    

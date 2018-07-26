@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +49,7 @@ public class PerfilActivity extends AppCompatActivity {
     private EditText bairro;
     private EditText cep;
     private Spinner uf;
+    private String uf_Selecionado;
     private ImageView imageUser;
     private String user_email;
     private Cliente cliente = new Cliente();
@@ -125,6 +127,18 @@ public class PerfilActivity extends AppCompatActivity {
         enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumStados.enumEstadosLista());
         uf.setAdapter(enumStadosArrayAdapter);
         enumStadosArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        uf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                uf_Selecionado = parent.getSelectedItem().toString();
+                Log.d("Verificando Spinner", uf_Selecionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //ação dos FABs:
         //Abrir Galeria
@@ -183,7 +197,6 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 verificarCampos();
-                //salvarPerfil();
             }
         });
     }
@@ -220,7 +233,9 @@ public class PerfilActivity extends AppCompatActivity {
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
-            pessoaDAO.salva(pessoa, user_email);
+            pessoaDAO.salva(pessoa,cliente);
+            Toast.makeText(PerfilActivity.this, "Atualizado com sucesso ", Toast.LENGTH_SHORT).show();
+            finish();
         }else{
             Toast.makeText(PerfilActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
     }
@@ -366,10 +381,13 @@ public class PerfilActivity extends AppCompatActivity {
         else if (cep.getText().toString().trim().isEmpty()) {
             cep.setError("Campo Vazio");
         }
-        else if (uf.equals('0')){
+        else if (uf_Selecionado.equals('0')){
             Toast.makeText(PerfilActivity.this, R.string.err_informUF,Toast.LENGTH_LONG).show();
         }
         else if(validarNumero(cpf.getText().toString().trim() )&&validarNumero(cep.getText().toString().trim()) ){
+            Toast.makeText(PerfilActivity.this, "Somente números em cpf e cep",Toast.LENGTH_LONG).show();
+        }else{
+            cliente.getPessoa().setUf(uf_Selecionado);
             salvarPerfil();
         }
 

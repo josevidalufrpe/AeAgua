@@ -1,6 +1,9 @@
 package com.inova.ufrpe.processos.carropipa.pessoa.persistence;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
+
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import static java.lang.Boolean.FALSE;
@@ -9,7 +12,8 @@ import static java.lang.Boolean.TRUE;
 public class PessoaDAO {
 
    private String parametros;
-    private final String url = "http://10.246.1.121:5000/cadastro/criar_perfil";
+    private final String url = "http://10.246.217.119:5000/cadastro/criar_perfil";
+    //private final String url = "http://192.168.1.101:5000/cadastro/criar_perfil";
     private Boolean response;
 
 
@@ -21,10 +25,12 @@ public class PessoaDAO {
      *         False - se houve falha no registro
      * o método salva é C/U de um CRUD
      */
-    public Boolean salva(Pessoa pessoa, String email) {
+    public Boolean salva(Pessoa pessoa, Cliente cliente) {
         parametros = "cpf=" + pessoa.getCpf() +"&logradouro=" + pessoa.getLogradouro() +"&complemento="
                 + pessoa.getComplemento() +"&bairro=" + pessoa.getBairro() +"&cep=" + pessoa.getCep()+
-        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+email;
+        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+cliente.getPessoa().getUsuario().getEmail()+
+                "&senha="+cliente.getPessoa().getUsuario().getSenha()+"&nome="+cliente.getPessoa().getNome()
+                +"&sobrenome="+cliente.getPessoa().getSnome()+"&telefone="+cliente.getPessoa().getTelefone();
         new enviaDados().execute(url);
         return response;
     }

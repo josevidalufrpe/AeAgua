@@ -3,6 +3,8 @@ package com.inova.ufrpe.processos.carropipa.motorista.dominio;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
+
 import java.io.Serializable;
 
 public class Motorista implements Parcelable, Serializable {
@@ -15,6 +17,8 @@ public class Motorista implements Parcelable, Serializable {
     private String bairro;
     private String cep;
     private String uf;
+
+    private Pessoa pessoa;
 
     public Long getId() {
         return id;
@@ -122,4 +126,12 @@ public class Motorista implements Parcelable, Serializable {
             return new Motorista[size];
         }
     };
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 }

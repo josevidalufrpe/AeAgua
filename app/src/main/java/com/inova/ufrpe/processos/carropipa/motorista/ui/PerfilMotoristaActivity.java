@@ -217,7 +217,7 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
-            pessoaDAO.salva(pessoa, user_email);
+            //pessoaDAO.salva(pessoa, cliente);
         }else{
             Toast.makeText(PerfilMotoristaActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
     }

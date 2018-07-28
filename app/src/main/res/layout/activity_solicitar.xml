@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_pressed"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.SolicitarActivity">
+    tools:context="com.inova.ufrpe.processos.carropipa.solicitar.SolicitarActivity">
 
     <Spinner
         android:id="@+id/spn_qtd"

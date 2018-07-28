@@ -1,3 +1,4 @@
+# coding=utf-8
 from flask import request
 from app import carropipa
 from flask import render_template
@@ -22,6 +23,7 @@ from app.models.tables import Motorista
 @carropipa.route("/")
 def index():
     return render_template('index.html')
+
 
 @carropipa.route("/cadastro/cadastrar", methods=["GET","POST"])
 def registrar():
@@ -75,6 +77,7 @@ def registrar():
         else:
             return "cadastration_fail"
 
+
 @carropipa.route("/cadastro/cadastrar_motorista", methods=["GET","POST"])
 def registrar_motorista():
     if request.method=="POST":
@@ -107,6 +110,8 @@ def registrar_motorista():
             return "cadastration_ok,{},{}".format(nome, sobrenome)  #um dia retornar .Json
         else:
             return "cadastration_fail"
+
+
 @carropipa.route("/cadastro/criar_perfil", methods=["GET","POST"])
 def criar_perfil():
     if request.method=="POST":
@@ -165,6 +170,7 @@ def cadastrar():
     return render_template('cadastro.html', form=formulario)
 '''
 
+
 @carropipa.route("/login/logar", methods=['GET', 'POST'])
 def logar():
     if request.method=='POST':
@@ -179,9 +185,7 @@ def logar():
                 if p_tipo.cpf == '0' or p_tipo.telefone == 'x xxxx xxxx':
                     return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank )
                 else:
-                    return "login_ok,{},{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,p_tipo.cpf,p_tipo.telefone,c.id,c.rank )   
-
-
+                    return "login_ok,{},{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,p_tipo.cpf,p_tipo.telefone,c.id,c.rank )
             else:
                 #deveria ser juridica
                 p_tipo = PessoaJuridica.query.filter_by(pessoa_id=p.id).first()

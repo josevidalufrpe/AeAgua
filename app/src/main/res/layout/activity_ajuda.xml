@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.AjudaActivity">
+    tools:context="com.inova.ufrpe.processos.carropipa.ajuda.AjudaActivity">
 
     <TextView
         android:id="@+id/textView8"
@@ -14,7 +14,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="86dp"
-        android:text="AêÁgua ajuda \n\n 1º Perfil: você pode ver   ou Alterar o PERFIL se não   existir.\n\n 2º Solicitar: você pode solicitar um caminhão de água."
+        android:text="@string/str_info"
         android:textAlignment="viewStart"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="30sp"

@@ -1,16 +1,13 @@
 package com.inova.ufrpe.processos.carropipa.pessoa.dominio;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
-import java.io.Serializable;
+public class Pessoa implements Parcelable  {
 
-public class Pessoa implements Parcelable, Serializable   {
-
-    private Long id;
+    private int id;
     private String cpf;
     private String logradouro;
     private String complemento;
@@ -60,11 +57,11 @@ public class Pessoa implements Parcelable, Serializable   {
     private String snome;
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -144,7 +141,7 @@ public class Pessoa implements Parcelable, Serializable   {
 
     private void readFromParcel(Parcel parcel) {
         //le os dados na ordem que foram escritos
-        this.id = parcel.readLong();
+        this.id = parcel.readInt();
         this.cpf = parcel.readString();
         this.logradouro = parcel.readString();
         this.complemento = parcel.readString();

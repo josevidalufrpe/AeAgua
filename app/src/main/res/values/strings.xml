@@ -6,7 +6,7 @@
     <string name="app_slogan">A solução para falta da água</string>
     <string name="btn_entrar">ENTRAR</string>
     <string name="campo_vazio">Este campo nao pode ser vazio!</string>
-    <string name="connection_failed">Não tem Conexão com a Internet!</string>
+    <string name="connection_failed">Não há conexão com a internet!</string>
     <string name="userPass_failed">Usuário ou Senha inválido!</string>
     <string name="title_activity_home_maps">Map</string>
     <string name="title_activity_m__main">M_MainActivity</string>
@@ -19,7 +19,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="nome_usuario">Nome do Usuario</string>
     <string name="email_usuario">usuario@carropipa.com</string>
-    <string name="cadastration_failed">Falha ao Cadatrar</string>
+    <string name="cadastration_failed">Falha ao Cadastrar</string>
     <string name="take_a_picture">Tire uma foto</string>
     <string name="edt_complemento">Complemento</string>
     <string name="edt_bairro">Bairro</string>
@@ -62,4 +62,25 @@
     <string name="err_emptyField">Campo Vazio</string>
     <string name="erroEnumQtd">Escolha uma quantidade de água porfavor</string>
     <string name="trueEnumQtd">Pedido Enviado</string>
+    <string name="str_info">AêÁgua ajuda    1º Perfil: você pode ver ou Alterar o PERFIL se não existir.   2º Solicitar: você pode solicitar um caminhão de água.</string>
+    <string name="lbl_nome">Nome:</string>
+    <string name="lbl_userName">nome do usuario</string>
+    <string name="lbl_sobrenome">SobreNome:</string>
+    <string name="lbl_userLastName">SobreNome do usuario</string>
+    <string name="lbl_email">Email:</string>
+    <string name="lbl_emailUser">Email do Usuario</string>
+    <string name="lbl_CPF">CPF:</string>
+    <string name="lbl_cpfUser">CPF do usuario</string>
+    <string name="lbl_telefone">Telefone:</string>
+    <string name="lbl_userTelefone">Telefone do usuario</string>
+    <string name="btn_alterar">ALTERAR</string>
+    <string name="lbl_motorista">Motorista:</string>
+    <string name="lbl_nameMotorista">Nome do Motorista</string>
+    <string name="lbl_quantidade">Quantidade:</string>
+    <string name="lbl_valorQtd">valor Quantidade</string>
+    <string name="lbl_ValorPago">Valor Pago:</string>
+    <string name="lbl_reais">Reais</string>
+    <string name="Str_About"><![CDATA[Esse Aplicativo foi feito por 2 Discentes de Barchalerado em Sistemas de Informação para ajuda na solucionar a falta de agua em certas:  ==> Felipe Caetano <==  ==>    José Vidal      <==  para a disciplina de Processo 2018.1]]></string>
+    <string name="escolha_pessoa">Escolha o Tipo de Pessoa!</string>
+    <string name="falha">Falha!</string>
 </resources>

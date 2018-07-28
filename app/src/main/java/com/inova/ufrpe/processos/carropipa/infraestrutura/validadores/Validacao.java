@@ -32,7 +32,7 @@ public class Validacao {
 
     public Boolean validarSexo2(String sexo) {
 
-        return sexo.matches("^(M|F)$");
+        return sexo.matches("^[MF]$");
     }
 
     public Boolean validarTelefone(String telefone) {

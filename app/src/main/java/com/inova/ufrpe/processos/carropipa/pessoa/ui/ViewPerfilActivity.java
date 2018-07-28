@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
-import com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity;
-import com.inova.ufrpe.processos.carropipa.infraestrutura.ui.PerfilActivity;
+import com.inova.ufrpe.processos.carropipa.perfil.PerfilActivity;
 
 public class ViewPerfilActivity extends AppCompatActivity {
 
@@ -39,12 +38,11 @@ public class ViewPerfilActivity extends AppCompatActivity {
         tv_cpf = findViewById( R.id.tv_Cpfusuario );
         tv_telefone = findViewById( R.id.tv_TelefoneUsuario );
 
-        tv_email.setText( cliente.getPessoa().getUsuario().getEmail());
-        tv_nome.setText( cliente.getPessoa().getNome() );
-        tv_Snome.setText( cliente.getPessoa().getSnome() );
-        tv_cpf.setText( cliente.getPessoa().getCpf() );
-        tv_telefone.setText( cliente.getPessoa().getTelefone() );
-
+        tv_email.setText( cliente.getEmail());
+        tv_nome.setText( cliente.getNome());
+        tv_Snome.setText( cliente.getSobreNome());
+        tv_cpf.setText( cliente.getCpf());
+        tv_telefone.setText( cliente.getTelefone());
 
         btn_alterar = findViewById( R.id.btn_alterar );
         btn_alterar.setOnClickListener( new View.OnClickListener() {

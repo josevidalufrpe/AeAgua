@@ -1,7 +1,6 @@
 package com.inova.ufrpe.processos.carropipa.pessoa.persistence;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
@@ -25,12 +24,12 @@ public class PessoaDAO {
      *         False - se houve falha no registro
      * o método salva é C/U de um CRUD
      */
-    public Boolean salva(Pessoa pessoa, Cliente cliente) {
+    public Boolean salva(Pessoa pessoa, Cliente cliente) {  //TODO:Salvando duas coisas??
         parametros = "cpf=" + pessoa.getCpf() +"&logradouro=" + pessoa.getLogradouro() +"&complemento="
                 + pessoa.getComplemento() +"&bairro=" + pessoa.getBairro() +"&cep=" + pessoa.getCep()+
-        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+cliente.getPessoa().getUsuario().getEmail()+
-                "&senha="+cliente.getPessoa().getUsuario().getSenha()+"&nome="+cliente.getPessoa().getNome()
-                +"&sobrenome="+cliente.getPessoa().getSnome()+"&telefone="+cliente.getPessoa().getTelefone();
+        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+cliente.getEmail()+
+                "&senha="+cliente.getSenha()+"&nome="+cliente.getNome()
+                +"&sobrenome="+cliente.getSobreNome()+"&telefone="+cliente.getTelefone();
         new enviaDados().execute(url);
         return response;
     }

@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity"
+    tools:context="com.inova.ufrpe.processos.carropipa.home.M_MainActivity"
     tools:showIn="@layout/app_bar_m__main">
 
     <FrameLayout
         android:id="@+id/context_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>

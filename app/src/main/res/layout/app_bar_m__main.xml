@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity">
+    tools:context="com.inova.ufrpe.processos.carropipa.home.M_MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         app:layout_anchor="@+id/fab"
         app:layout_anchorGravity="top|center"
-        tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity" />
+        tools:context="com.inova.ufrpe.processos.carropipa.home.M_MainActivity" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

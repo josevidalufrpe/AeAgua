@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.AdapterPagamentoActivity">
+    tools:context="com.inova.ufrpe.processos.carropipa.pagamentos.AdapterPagamentoActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -21,7 +21,7 @@
             android:layout_width="179dp"
             android:layout_height="29dp"
             android:layout_weight="1"
-            android:text="Motorista: "
+            android:text="@string/lbl_motorista"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:layout_weight="1"
-            android:text="NomedoMotorista"
+            android:text="@string/lbl_nameMotorista"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
             android:layout_width="461dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Quantidade: "
+            android:text="@string/lbl_quantidade"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
             android:layout_width="460dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="valorQtd"
+            android:text="@string/lbl_valorQtd"
             android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textStyle="bold" />
@@ -73,7 +73,7 @@
             android:layout_width="465dp"
             android:layout_height="31dp"
             android:layout_weight="1"
-            android:text="ValorPago:"
+            android:text="@string/lbl_ValorPago"
             android:textAlignment="center"
             android:textColor="@android:color/holo_orange_dark"
             android:textStyle="bold" />
@@ -83,7 +83,7 @@
             android:layout_width="446dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Reais"
+            android:text="@string/lbl_reais"
             android:textColor="@color/secondaryTextColor"
             android:textStyle="bold" />
 

@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.inova.ufrpe.processos.carropipa">
 
+
+    <!--
+             The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+             Google Maps Android API v2, but you must specify either coarse or fine
+             location permissions for the 'MyLocation' functionality.
+        -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.example.barcodelibrary.permission.MAPS_RECEIVE" />
@@ -13,12 +19,6 @@
 
     <uses-feature android:name="android.hardware.camera2.full" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -37,19 +37,24 @@
                 android:resource="@xml/providers_path" />
         </provider>
 
-        <activity android:name=".infraestrutura.ui.ApresentActivity">
+        <activity android:name=".home.ApresentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".infraestrutura.ui.LoginActivity" />
+        <activity android:name=".login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".infraestrutura.ui.M_MainActivity"
+            android:name=".home.M_MainActivity"
             android:label=" "
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".infraestrutura.ui.CriarContaUsuarioFinalActivity" />
+        <activity android:name=".criarconta.CriarContaUsuarioFinalActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -67,16 +72,17 @@
             android:required="true" />
 
         <activity
-            android:name=".infraestrutura.ui.MapsActivity"
+            android:name=".maps.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".infraestrutura.ui.PerfilActivity" />
-        <activity android:name=".infraestrutura.ui.SolicitarActivity" />
+        <activity android:name=".perfil.PerfilActivity" />
+        <activity android:name=".solicitar.SolicitarActivity" />
         <activity android:name=".motorista.ui.CriarContaMotoristaActivity" />
         <activity android:name=".pessoa.ui.ViewPerfilActivity" />
-        <activity android:name=".infraestrutura.ui.PagamentosActivity" />
-        <activity android:name=".infraestrutura.ui.AdapterPagamentoActivity" />
-        <activity android:name=".infraestrutura.ui.AjudaActivity" />
-        <activity android:name=".infraestrutura.ui.SobreActivity"></activity>
+        <activity android:name=".pagamentos.PagamentosActivity" />
+        <activity android:name=".pagamentos.AdapterPagamentoActivity" />
+        <activity android:name=".ajuda.AjudaActivity" />
+        <activity android:name=".about.SobreActivity" />
+        <activity android:name=".infraestrutura.serverlayer.Conectar" />
     </application>
 
 </manifest>

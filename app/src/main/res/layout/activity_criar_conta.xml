@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_pressed"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.CriarContaUsuarioFinalActivity"
+    tools:context="com.inova.ufrpe.processos.carropipa.criarconta.CriarContaUsuarioFinalActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <EditText
@@ -57,6 +57,7 @@
         android:ems="10"
         android:hint="@string/edt_nome"
         android:inputType="textPersonName"
+        android:nextFocusForward="@+id/editSobrenome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.307"

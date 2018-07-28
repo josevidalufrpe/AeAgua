@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_red_dark"
-    tools:context="com.inova.ufrpe.processos.carropipa.infraestrutura.ui.PerfilActivity"
+    tools:context="com.inova.ufrpe.processos.carropipa.perfil.PerfilActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -87,6 +87,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:inputType="text"
         android:hint="@string/edt_complemento"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
@@ -106,6 +107,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:inputType="text"
         android:hint="@string/edt_bairro"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
@@ -125,6 +127,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:inputType="text"
         android:hint="@string/edt_cidade"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
@@ -144,6 +147,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:inputType="number"
         android:hint="@string/edt_cep"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
@@ -163,6 +167,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:inputType="text"
         android:hint="@string/edt_lograduro"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorHint="@color/common_google_signin_btn_text_dark_focused"

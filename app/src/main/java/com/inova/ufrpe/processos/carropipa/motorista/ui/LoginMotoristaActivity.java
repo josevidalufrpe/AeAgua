@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
-import com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity;
+import com.inova.ufrpe.processos.carropipa.home.M_MainActivity;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
 
 public class LoginMotoristaActivity extends AppCompatActivity {

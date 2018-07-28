@@ -1,40 +1,40 @@
-package com.inova.ufrpe.processos.carropipa.motorista.ui;
+package com.inova.ufrpe.processos.carropipa.perfil;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.hardware.ExternalStorage;
+import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conectar;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import com.inova.ufrpe.processos.carropipa.pessoa.persistence.PessoaDAO;
-
 import java.io.File;
 import java.io.IOException;
 
-public class PerfilMotoristaActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity {
 
     private final int GALERY = 1;
     private final int CAMERA = 0;
@@ -47,14 +47,20 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
     private EditText bairro;
     private EditText cep;
     private Spinner uf;
+    private String uf_Selecionado;
     private ImageView imageUser;
     private String user_email;
+    private Cliente cliente;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_perfil );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_perfil);
+        checkPermissions();
+
+        Intent autentication = getIntent();
+        cliente = autentication.getExtras().getParcelable("cliente");
 
         cpf = findViewById(R.id.edt_cpf);
         logradouro = findViewById(R.id.edt_logradouro);
@@ -62,66 +68,40 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
         cidade = findViewById(R.id.edt_cidade);
         bairro = findViewById(R.id.edt_bairro);
         cep = findViewById(R.id.edt_cep);
-
-
-        Intent autentication = getIntent();
-        user_email = autentication.getStringExtra("email");
+        imageUser = findViewById(R.id.img_user);
+        uf = findViewById(R.id.spn_uf);
 
         Button limpar = findViewById(R.id.btn_limpar);
         Button enviar = findViewById(R.id.btn_enviar);
         FloatingActionButton tirarFoto = findViewById(R.id.fab_tirarFoto);
         FloatingActionButton abrirGaleria = findViewById(R.id.fab_abrirGaleria);
-        imageUser = findViewById(R.id.img_user);
+        Spinner pessoaTipo = findViewById(R.id.spn_tipo);
 
-        uf = findViewById(R.id.spn_uf);
-        //pessoa.setUf(uf.getSelectedItem().toString()); //ler o spinner
-        //Log.d("Estou Lendo:",pessoa.getUf());
-        //Spinner pessoaTipo = findViewById(R.id.spn_tipo);
+        //Setar Spinner Tipo de Pessoa:
+        ArrayAdapter<String> enumTiposArrayAdapter;
+        enumTiposArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                EnumTipos.EnumTiposLista());
+        pessoaTipo.setAdapter(enumTiposArrayAdapter);
+        enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
-        //permissões para manipular arquivos:
-
-        // trecho adiciona permissão de ler arquivos
-        int PERMISSION_REQUEST = 0;
-        if(ContextCompat.checkSelfPermission(PerfilMotoristaActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            //não tem permissão: solicitar
-            if(ActivityCompat.shouldShowRequestPermissionRationale(PerfilMotoristaActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)){
-
-            }else{
-                ActivityCompat.requestPermissions(PerfilMotoristaActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
-            }
-        }
-
-        // trecho adiciona permissão de gravar arquivos
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
-            }
-        }
-
-
-        //Setar Spinners
-        //Spiner Estados:
-        //ArrayAdapter<String> enumTiposArrayAdapter;
-        //enumTiposArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumTipos.EnumTiposLista());
-        //pessoaTipo.setAdapter(enumTiposArrayAdapter);
-        //enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
-
+        Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
 
         //Spiner Estados:
         ArrayAdapter<String> enumStadosArrayAdapter;
-        enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumStados.enumEstadosLista());
+        enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                EnumStados.enumEstadosLista());
         uf.setAdapter(enumStadosArrayAdapter);
         enumStadosArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        uf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                uf_Selecionado = parent.getSelectedItem().toString();
+                Log.d("Verificando Spinner", uf_Selecionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
 
         //ação dos FABs:
         //Abrir Galeria
@@ -129,14 +109,14 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //verifica permissão de galeria
-                int permissionCheck = ContextCompat.checkSelfPermission(PerfilMotoristaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                int permissionCheck = ContextCompat.checkSelfPermission(PerfilActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
                 //se tiver permissão tira foto
                 if(permissionCheck == PackageManager.PERMISSION_GRANTED){
                     escolherFoto();
                 }
                 else{
                     // solicita permissão
-                    ActivityCompat.requestPermissions(PerfilMotoristaActivity.this,new String[]{
+                    ActivityCompat.requestPermissions(PerfilActivity.this,new String[]{
                             Manifest.permission.WRITE_EXTERNAL_STORAGE},GALERY);
                 }
 
@@ -149,7 +129,7 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //verifica permissão de camera
-                int permissionCheck = ContextCompat.checkSelfPermission(PerfilMotoristaActivity.this, Manifest.permission.CAMERA);
+                int permissionCheck = ContextCompat.checkSelfPermission(PerfilActivity.this, Manifest.permission.CAMERA);
                 //UseCamera camera = new UseCamera();
                 //se tiver permissão tira foto
                 if(permissionCheck == PackageManager.PERMISSION_GRANTED){
@@ -157,14 +137,12 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
                 }
                 else{
                     // solicita permissão
-                    ActivityCompat.requestPermissions(PerfilMotoristaActivity.this,new String[]{
+                    ActivityCompat.requestPermissions(PerfilActivity.this,new String[]{
                             Manifest.permission.CAMERA},CAMERA);
                 }
             }
         });
         //fim do abre a camera
-
-
 
         //ação dos botões:
         //botão limpar
@@ -180,9 +158,34 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 verificarCampos();
-                //salvarPerfil();
             }
         });
+    }
+
+    private void checkPermissions() {
+        // trecho adiciona permissão de ler arquivos
+        int PERMISSION_REQUEST = 0;
+        if(ContextCompat.checkSelfPermission(PerfilActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(PerfilActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+            }else{                  //não tem permissão: solicitar
+                ActivityCompat.requestPermissions(PerfilActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
+            }
+        }
+        // trecho adiciona permissão de gravar arquivos
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Log.d("WRITE PERMISSION: ",  "OK");
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
+            }
+        }
     }
 
     /**
@@ -210,16 +213,17 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
 
         PessoaDAO pessoaDAO = new PessoaDAO();
 
-        ConnectivityManager cm =
-                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        //ConnectivityManager cm =(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         //aqui pode gerar exception??
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        //NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        //boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        boolean isConnected = Conectar.isConnected(PerfilActivity.this);
         if (isConnected){
-            //pessoaDAO.salva(pessoa, cliente);
+            pessoaDAO.salva(pessoa,cliente);
+            Toast.makeText(PerfilActivity.this, "Atualizado com sucesso ", Toast.LENGTH_SHORT).show();
+            finish();
         }else{
-            Toast.makeText(PerfilMotoristaActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
+            Toast.makeText(PerfilActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
     }
 
 
@@ -253,7 +257,7 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
      */
     private void escolherFoto() {
         Intent galery =
-                new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galery,GALERY);
     }
 
@@ -264,23 +268,20 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
      * action: Limpa os campos de um formulário
      */
     private void limparCampos() {
-        String vazio = "";
         try{
-        cpf.setText(vazio);
-        logradouro.setText(vazio);
-        complemento.setText(vazio);
-        cidade.setText(vazio);
-        bairro.setText(vazio);
-        cep.setText(vazio);
+        cpf.setText(cpf.getHint());
+        logradouro.setText(logradouro.getHint());
+        complemento.setText(complemento.getHint());
+        cidade.setText(cidade.getHint());
+        bairro.setText(bairro.getHint());
+        cep.setText(cep.getHint());
         uf.setSelection(0);}
         catch (Exception e){
-            Toast.makeText( PerfilMotoristaActivity.this,"Tela Limpa",Toast.LENGTH_LONG).show();
+            Toast.makeText( PerfilActivity.this,"Tela Limpa",Toast.LENGTH_LONG).show(); //Qual exeção??
         }
     }
 
-    /*Trata a resposta de permissão do usuário
-   de acordo com as constantes
-    */
+    //*Trata a resposta de permissão do usuário de acordo com as constantes
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
 
@@ -318,16 +319,15 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 picturePath = c.getString(columnIndex);
             }
-
             c.close();
-
             //Necessario redimensionar a imagem lida
             if(picturePath==null){
                 thumb = BitmapFactory.decodeResource(getBaseContext().getResources(),R.mipmap.ic_launcher_round);
             }
             thumb = (BitmapFactory.decodeFile(picturePath));
             btmReduzido = Bitmap.createScaledBitmap(thumb,150,150,true);
-            imageUser.setImageBitmap(thumb);
+            //imageUser.setImageBitmap(thumb);
+            imageUser.setImageBitmap(btmReduzido);
         }
         if(requestCode == CAMERA && resultCode== RESULT_OK){
 
@@ -344,36 +344,31 @@ public class PerfilMotoristaActivity extends AppCompatActivity {
             }
         }
     }
-    private void verificarCampos(){
+
+        private void verificarCampos(){
         if (cpf.getText().toString().trim().isEmpty()) {
             cpf.setError(getString(R.string.err_emptyField));
-        }
-        else if (logradouro.getText().toString().trim().isEmpty()) {
+        }else if (logradouro.getText().toString().trim().isEmpty()) {
             logradouro.setError(getString(R.string.err_emptyField));
-        }
-        else if (complemento.getText().toString().trim().isEmpty()) {
+        }else if (complemento.getText().toString().trim().isEmpty()) {
             complemento.setError(getString(R.string.err_emptyField));
-        }
-
-        else if (bairro.getText().toString().trim().isEmpty()) {
+        }else if (bairro.getText().toString().trim().isEmpty()) {
             bairro.setError(getString(R.string.err_emptyField));
-        }
-        else if (cidade.getText().toString().trim().isEmpty()) {
+        }else if (cidade.getText().toString().trim().isEmpty()) {
             cidade.setError(getString(R.string.err_emptyField));
-        }
-        else if (cep.getText().toString().trim().isEmpty()) {
+        }else if (cep.getText().toString().trim().isEmpty()) {
             cep.setError(getString(R.string.err_emptyField));
-        }
-        else if (uf.equals("0")){
-            Toast.makeText(PerfilMotoristaActivity.this, R.string.err_informUF,Toast.LENGTH_LONG).show();
-        }
-        else if(validarNumero(cpf.getText().toString().trim() )&&validarNumero(cep.getText().toString().trim()) ){
+        }else if (uf_Selecionado.equals("0")){
+            Toast.makeText(PerfilActivity.this, R.string.err_informUF,Toast.LENGTH_LONG).show();
+        }else if(validarNumero(cpf.getText().toString().trim() ) && validarNumero(cep.getText().toString().trim()) ){
+            Toast.makeText(PerfilActivity.this, "Somente números em cpf e cep",Toast.LENGTH_LONG).show();
+        }else{
+            cliente.setUf(uf_Selecionado);
             salvarPerfil();
         }
-
     }
-    private Boolean validarNumero(String numero) {
 
+    private Boolean validarNumero(String numero) {
         return numero.matches("^[0-9]{0,5}+$");
     }
 }

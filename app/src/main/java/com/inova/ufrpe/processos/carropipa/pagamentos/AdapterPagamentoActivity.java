@@ -48,7 +48,7 @@ public class AdapterPagamentoActivity extends BaseAdapter {
         TextView quantidade = view.findViewById(R.id.tv_pag_qtd);
         TextView valor = view.findViewById(R.id.tv_pag_valor);
 
-        nomeMotorista.setText(pedido.getMotorista().getPessoa().getNome());
+        nomeMotorista.setText(pedido.getMotorista().getNome());
         quantidade.setText(pedido.getQuantidade());
         valor.setText(String.valueOf( pedido.getValor()));
 

@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +14,9 @@ import android.widget.Toast;
 
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
-import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conectar;
 import com.inova.ufrpe.processos.carropipa.home.M_MainActivity;
+import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conectar;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
-import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
-import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 import java.util.Objects;
 
@@ -38,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        conectar = new Conectar();
+        conectar = Conectar.getInstance();
         cliente = new Cliente();
         conectar.setOnLoginListener(LoginActivity.this);
         setContentView(R.layout.activity_login);
@@ -92,17 +89,19 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
         if(resultado[0].contains("login_ok")){
             //exibir toast apenas para verificar os dados q chegam do servidor
             Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
-            cliente.setEmail(resultado[1]);
-            cliente.setNome(resultado[2]);
-            cliente.setSobreNome(resultado[3]);
-            Log.d("OLHO NO LANCE!",resultado[3]);
-            cliente.setRank(resultado[4]);//esta retornando null (troca para 0.0)
+            cliente.setEmail(resultado[2]);
+            cliente.setNome(resultado[5]);
+            cliente.setSobreNome(resultado[6]);
+            cliente.setRank(resultado[8]);//esta retornando null (troca para 0.0)
             //setar os outro atributos da resposta??
-
-            /*autentication.putExtra("email",resultado[1]);
-            autentication.putExtra("nome",resultado[2]);
-            autentication.putExtra("snome",resultado[3]);
-            autentication.putExtra("rank",resultado[4]);*/
+            cliente.setId(Integer.parseInt(resultado[7]));                                          //id da tabela cliente
+            /*cliente.setSenha(resultado[]);
+            cliente.setTipo(resultado[]);
+            cliente.setBairro(resultado[]);
+            cliente.setTelefone(resultado[]);
+            cliente.setCep(resultado[]);
+            cliente.setCidade(resultado[]);
+            cliente.setLogradouro(resultado[]);*/
             autentication.putExtra( "cliente", cliente );
             startActivity(autentication);
         }else {

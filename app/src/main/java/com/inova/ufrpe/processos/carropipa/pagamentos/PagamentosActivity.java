@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
@@ -23,26 +24,23 @@ public class PagamentosActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_pagamentos );
         Pedido testePedido = new Pedido();
-        Motorista testeMotorista = new Motorista();
-        Pessoa testePessoa = new Pessoa();
+        Cliente testeMotorista = new Cliente();
+        Cliente testePessoa = new Cliente();
 
-        testePessoa.setNome( "Chico" );
-        testeMotorista.setPessoa( testePessoa );
+        testeMotorista.setNome("Chico");
 
-        testePedido.setMotorista( testeMotorista );
+        testePedido.setMotorista(testeMotorista);
         testePedido.setQuantidade( "66666" );
-        testePedido.setValor( 100 );
+        testePedido.setValor(100.0);
 
         pedidoArrayList.add(testePedido);
-
 
         //Pegar todos pedido do cliente
         // para alimentar a lista de pedidos
 
-        adapterPagamentoActivity = new AdapterPagamentoActivity( pedidoArrayList,PagamentosActivity.this );
+        adapterPagamentoActivity = new AdapterPagamentoActivity(pedidoArrayList,PagamentosActivity.this);
 
-        listView = findViewById( R.id.listview_pag );
-        listView.setAdapter( adapterPagamentoActivity );
-
+        listView = findViewById(R.id.listview_pag);
+        listView.setAdapter(adapterPagamentoActivity);
     }
 }

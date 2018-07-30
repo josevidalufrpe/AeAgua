@@ -165,6 +165,7 @@ class Avaliacao(db.Model):
         self.cliente_id = cliente_id
         self.motorista_id = motorista_id
 
+
 class Veiculo(db.Model):
     __tablename__ = 'veiculos'
     id = db.Column(db.Integer, primary_key=True)
@@ -184,6 +185,7 @@ class Veiculo(db.Model):
 
     def __repr__(self):
         return '<Veiculo placa: %r  capacidade: %r cor: %r>' % (self.placa, self.capacidade, self.cor)
+
 
 class Pedido(db.Model):
     __tablename__ = 'pedidos'
@@ -205,6 +207,7 @@ class Pedido(db.Model):
         self.cliente_id = cliente_id
         self.motorista_id = motorista_id
 
+
 class Pagamento(db.Model):
     __tablename__ = 'pagamentos'
     id = db.Column(db.Integer, primary_key=True)
@@ -218,18 +221,18 @@ class Pagamento(db.Model):
         self.descricao = descricao
         self.pedido_id = pedido_id
 
+
 class Endereco(db.Model):
     __tablename__ = 'endereco'
 
     id = db.Column(db.Integer, primary_key=True)
-
-    logradouro =  db.Column(db.String)
+    logradouro = db.Column(db.String)
     complemento = db.Column(db.String)
-    bairro =      db.Column(db.String)
-    cep =         db.Column(db.Integer)
-    cidade =      db.Column(db.String)
-    uf =          db.Column(db.String)
-    pessoa_id =    db.Column(db.Integer, db.ForeignKey('pessoas.id'))
+    bairro = db.Column(db.String)
+    cep = db.Column(db.Integer)
+    cidade = db.Column(db.String)
+    uf = db.Column(db.String)
+    pessoa_id = db.Column(db.Integer, db.ForeignKey('pessoas.id'))
 
     pessoa = db.relationship('Pessoa', foreign_keys=pessoa_id)
 

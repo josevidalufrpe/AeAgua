@@ -1,5 +1,7 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,6 +35,7 @@ public class Conexao {
 
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
             outputStreamWriter.write(parametroUsuario);
+            Log.d("CONEXAO:", "foi");
             outputStreamWriter.flush();
 
             //obter informação

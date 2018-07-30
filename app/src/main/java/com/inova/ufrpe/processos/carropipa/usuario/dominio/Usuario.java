@@ -3,6 +3,10 @@ package com.inova.ufrpe.processos.carropipa.usuario.dominio;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
+    private int id;
+    private String email;
+    private String senha;
+
     public int getId() {
         return id;
     }
@@ -27,8 +31,6 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    private int id;
-    private String email;
-    private String senha;
+
 
 }

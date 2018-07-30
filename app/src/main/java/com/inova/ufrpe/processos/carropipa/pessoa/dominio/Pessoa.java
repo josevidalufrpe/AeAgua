@@ -8,13 +8,17 @@ import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 public class Pessoa implements Parcelable  {
 
     private int id;
+    private String nome;
+    private String snome;
     private String cpf;
     private String logradouro;
     private String complemento;
+    private String telefone;
     private String cidade;
     private String bairro;
     private String cep;
     private String uf;
+    private Usuario usuario;
 
     public String getTelefone() {
         return telefone;
@@ -24,7 +28,6 @@ public class Pessoa implements Parcelable  {
         this.telefone = telefone;
     }
 
-    private String telefone;
 
     public Usuario getUsuario() {
         return usuario;
@@ -34,8 +37,6 @@ public class Pessoa implements Parcelable  {
         this.usuario = usuario;
     }
 
-    private Usuario usuario;
-
     public String getNome() {
         return nome;
     }
@@ -44,8 +45,6 @@ public class Pessoa implements Parcelable  {
         this.nome = nome;
     }
 
-    private String nome;
-
     public String getSnome() {
         return snome;
     }
@@ -53,9 +52,6 @@ public class Pessoa implements Parcelable  {
     public void setSnome(String snome) {
         this.snome = snome;
     }
-
-    private String snome;
-
 
     public int getId() {
         return id;

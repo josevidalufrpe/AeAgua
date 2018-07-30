@@ -8,10 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +29,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
-import com.inova.ufrpe.processos.carropipa.solicitar.SolicitarActivity;
+import com.inova.ufrpe.processos.carropipa.pagamentos.PagamentosActivity;
 import com.inova.ufrpe.processos.carropipa.perfil.PerfilActivity;
+import com.inova.ufrpe.processos.carropipa.solicitar.SolicitarActivity;
+
+import java.util.Objects;
 
 public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMarkerClickListener,
@@ -46,20 +48,21 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_m__main );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_m__main);
         cliente = new Cliente();
 
         //Pega os dados vindos após o login
         checkPermission();
         Intent autentication = getIntent();
-        cliente = autentication.getExtras().getParcelable("cliente");
+        cliente = Objects.requireNonNull(autentication.getExtras()).getParcelable("cliente");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
         mapFragment.getMapAsync(this);
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -126,6 +129,9 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivity(solicitarAct);
                 break;
             case R.id.nav_pagamento:
+                Intent pagarAct = new Intent(M_MainActivity.this, PagamentosActivity.class);
+                pagarAct.putExtra("cliente", cliente);
+                startActivity(pagarAct);
                 break;
             case R.id.nav_ajuda:
                 break;

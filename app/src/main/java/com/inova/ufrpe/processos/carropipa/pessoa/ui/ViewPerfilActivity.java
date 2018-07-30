@@ -11,6 +11,8 @@ import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.perfil.PerfilActivity;
 
+import java.util.Objects;
+
 public class ViewPerfilActivity extends AppCompatActivity {
 
     private String user_email;
@@ -30,7 +32,7 @@ public class ViewPerfilActivity extends AppCompatActivity {
 
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
-        cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
+        cliente = Objects.requireNonNull(autentication.getExtras()).getParcelable( "cliente" );
 
         tv_email = findViewById( R.id.tv_EmailUsuario );
         tv_nome = findViewById( R.id.tv_NomeUsuario );

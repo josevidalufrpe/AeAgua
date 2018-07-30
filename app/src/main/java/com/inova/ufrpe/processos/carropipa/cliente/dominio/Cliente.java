@@ -3,8 +3,6 @@ package com.inova.ufrpe.processos.carropipa.cliente.dominio;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
-
 /**
  * Classe de base cliente implementa parcelable
  * parcelable é recomendado pelo android developer
@@ -28,7 +26,15 @@ public class Cliente implements Parcelable {
     private String bairro;
     private String cep;
     private String uf;
+    private String tipo;
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public int getId() {
         return id;
@@ -141,6 +147,7 @@ public class Cliente implements Parcelable {
     public void setUf(String uf) {
         this.uf = uf;
     }
+
 
     public static final Parcelable.Creator<Cliente> CREATOR = new Creator<Cliente>() {
         @Override

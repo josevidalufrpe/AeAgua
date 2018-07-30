@@ -7,13 +7,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,16 +23,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
+import com.inova.ufrpe.processos.carropipa.cliente.persistence.ClienteDAO;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.hardware.ExternalStorage;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conectar;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
-import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
-import com.inova.ufrpe.processos.carropipa.pessoa.persistence.PessoaDAO;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class PerfilActivity extends AppCompatActivity {
 
@@ -59,8 +61,9 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         checkPermissions();
 
-        Intent autentication = getIntent();
-        cliente = autentication.getExtras().getParcelable("cliente");
+        Intent perfilAct = getIntent();
+        cliente = Objects.requireNonNull(perfilAct.getExtras()).getParcelable("cliente");
+        Log.i("CLIENTE RECEBIDO", cliente.getNome());
 
         cpf = findViewById(R.id.edt_cpf);
         logradouro = findViewById(R.id.edt_logradouro);
@@ -70,6 +73,8 @@ public class PerfilActivity extends AppCompatActivity {
         cep = findViewById(R.id.edt_cep);
         imageUser = findViewById(R.id.img_user);
         uf = findViewById(R.id.spn_uf);
+
+        completaPerfil();
 
         Button limpar = findViewById(R.id.btn_limpar);
         Button enviar = findViewById(R.id.btn_enviar);
@@ -143,7 +148,6 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
         //fim do abre a camera
-
         //ação dos botões:
         //botão limpar
         limpar.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +164,34 @@ public class PerfilActivity extends AppCompatActivity {
                 verificarCampos();
             }
         });
+    }
+
+    private void completaPerfil() {
+        String clientCpf = cliente.getCpf();
+        if(clientCpf != null){
+            Log.d("CLIENTE TEM: ", clientCpf);
+            cpf.setText(clientCpf);
+        }
+        String clientLogradouro = cliente.getLogradouro();
+        if(clientLogradouro != null){
+            logradouro.setText(clientLogradouro);
+        }
+        String clientComplemento = cliente.getComplemento();
+        if(clientComplemento != null){
+            complemento.setText(clientComplemento);
+        }
+        String clientCidade = cliente.getCidade();
+        if(clientCidade != null) {
+            complemento.setText(clientCidade);
+        }
+        String clientBairro = cliente.getBairro();
+        if(clientBairro != null) {
+            complemento.setText(clientBairro);
+        }
+        String clientCep = cliente.getCep();
+        if(clientCep != null) {
+            complemento.setText(clientCep);
+        }
     }
 
     private void checkPermissions() {
@@ -197,35 +229,27 @@ public class PerfilActivity extends AppCompatActivity {
      */
     private void salvarPerfil() {
 
-        Pessoa pessoa = new Pessoa();
-        cpf = findViewById(R.id.edt_cpf);
-        pessoa.setCpf(cpf.getText().toString());
-        logradouro = findViewById(R.id.edt_logradouro);
-        pessoa.setLogradouro(logradouro.getText().toString());
-        complemento = findViewById(R.id.edt_complemento);
-        pessoa.setComplemento(complemento.getText().toString());
-        cidade = findViewById(R.id.edt_cidade);
-        pessoa.setCidade(cidade.getText().toString());
-        bairro = findViewById(R.id.edt_bairro);
-        pessoa.setBairro(bairro.getText().toString());
-        cep = findViewById(R.id.edt_cep);
-        pessoa.setCep(cep.getText().toString());
+        Cliente cliente = new Cliente();
+        ClienteDAO clienteDAO = new ClienteDAO(PerfilActivity.this);
 
-        PessoaDAO pessoaDAO = new PessoaDAO();
+        cliente.setCpf(cpf.getText().toString());
+        cliente.setLogradouro(logradouro.getText().toString());
+        cliente.setComplemento(complemento.getText().toString());
+        cliente.setCidade(cidade.getText().toString());
+        cliente.setBairro(bairro.getText().toString());
+        cliente.setCep(cep.getText().toString());
 
-        //ConnectivityManager cm =(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        //aqui pode gerar exception??
-        //NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        //boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         boolean isConnected = Conectar.isConnected(PerfilActivity.this);
         if (isConnected){
-            pessoaDAO.salva(pessoa,cliente);
-            Toast.makeText(PerfilActivity.this, "Atualizado com sucesso ", Toast.LENGTH_SHORT).show();
-            finish();
+            if (clienteDAO.salva(cliente)){
+                Toast.makeText(PerfilActivity.this, R.string.save_sucess, Toast.LENGTH_SHORT).show();
+                finish();
+            }else{
+                Toast.makeText(PerfilActivity.this, R.string.falha, Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(PerfilActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
     }
-
 
     /**
      * Metodo abreCamera - Tira uma foto com a Camera do Dispositivo
@@ -298,7 +322,6 @@ public class PerfilActivity extends AppCompatActivity {
             }
         }
     }
-
 
     /*
    Metodo que responde as Intentes de Tirar Foto e Abrir galeria

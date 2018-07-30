@@ -7,9 +7,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.inova.ufrpe.processos.carropipa.R;
 
 import java.util.Objects;
 
@@ -19,6 +16,7 @@ public class Conectar extends Activity {
     private Context ctx;
     private OnLoginListener onLoginListener;
     private OnCadastroListener onCadastroListener;
+    private static Conectar unico = new Conectar();
 
     public interface OnLoginListener{
         void onLogin(String result);
@@ -34,6 +32,12 @@ public class Conectar extends Activity {
 
     public void setOnCadastroListener(OnCadastroListener onCadastroListener){
         this.onCadastroListener = onCadastroListener;
+    }
+
+    private Conectar(){}
+
+    public static Conectar getInstance(){
+        return unico;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +80,12 @@ private class SolicitaDados extends AsyncTask<String, String, String> {
         return Conexao.postDados(url[0], parametros);
     }
 
-    //exibe os resultados
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
 
-    /**
+        /**
      * dentro do metodo onPost result deve ser implementada a lista de cada activites que acessam o
      * servidor
      *
@@ -86,8 +93,9 @@ private class SolicitaDados extends AsyncTask<String, String, String> {
      */
     @Override
     protected void onPostExecute(String results){
+        Log.d("POST:", results);
         String[] resultado = results.split(",");
-
+        Log.d("CONECTAR:", "peguei resposta");
         if(resultado[0].contains("cadastration_ok")) {
             if(onCadastroListener != null){
                 onCadastroListener.onCadastro(results);
@@ -97,9 +105,14 @@ private class SolicitaDados extends AsyncTask<String, String, String> {
                onLoginListener.onLogin(results);
             }
         }
-        else {
-            Toast.makeText(getApplicationContext(), getString(R.string.falha), Toast.LENGTH_SHORT).show();
-            // Falha no cadatros!! @TODO tratar erro, para exibir ao Usuário
+        else {                                                                                      //FALHOU!!!
+            if(onCadastroListener != null){
+                //vai pra cadastro
+                onCadastroListener.onCadastro(results);
+            }else{
+                //vai pra login
+                onLoginListener.onLogin(results);
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.home.M_MainActivity;
-import com.inova.ufrpe.processos.carropipa.motorista.dominio.EnumQuatd;
+import com.inova.ufrpe.processos.carropipa.pedido.dominio.EnumQuatd;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
 
 public class SolicitarActivity extends AppCompatActivity {
@@ -24,7 +24,6 @@ public class SolicitarActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private Pedido pedido = new Pedido();
     private Location location = M_MainActivity.localizacao;
-
     private Cliente cliente = new Cliente();
 
     @Override
@@ -33,15 +32,14 @@ public class SolicitarActivity extends AppCompatActivity {
         setContentView( R.layout.activity_solicitar );
 
         Intent autentication = getIntent();
-        cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
+        cliente = autentication.getExtras().getParcelable( "cliente" );
 
         quantidade = findViewById(R.id.spn_qtd);
 
-        ArrayAdapter<String> enumStadosArrayAdapter;
-        enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumQuatd.EnumQuatdLista());
-        quantidade.setAdapter(enumStadosArrayAdapter);
-        enumStadosArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        ArrayAdapter<String> enumQuantArrayAdapter;
+        enumQuantArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumQuatd.EnumQuatdLista());
+        quantidade.setAdapter(enumQuantArrayAdapter);
+        enumQuantArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Button solicitar = findViewById(R.id.btn_solicitar);
 
@@ -50,14 +48,14 @@ public class SolicitarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String quantidadePedida = quantidade.getSelectedItem().toString();
 
-                if(!quantidadePedida.equals( "Escolha a Quantidade de ajuda" )) {
+                if(!quantidadePedida.equals( "Escolha a Quantidade de Água" )) {
                     //Cliente cliente = new Cliente();
                     //cliente.setId( 1 );
                     //Pessoa pessoa = new Pessoa();
                     //pessoa.setNome( "VIDAL" );
                     //pessoa.setId( (long) 1 );
-                    cliente.setCpf( "100" );
-                    //Usuario usuario = new Usuario();
+                    cliente.setCpf( "100" );                            //TODO: tem que arrumar isso
+                    //Usuario usuario = new Usuario();                  //Está acontecendo pq essas informações não tão vindo do servidor
                     //usuario.setId( 1 );
                     //pessoa.setUsuario( usuario );
                     //cliente.setPessoa( pessoa );

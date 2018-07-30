@@ -51,7 +51,7 @@ public class ClienteDAO implements Conectar.OnCadastroListener{
                         "&usermail="+cliente.getEmail()+ "&senha="+cliente.getSenha()+"&nome="+cliente.getNome()+
                         "&sobrenome="+cliente.getSobreNome()+"&tipo="+cliente.getTipo()+
                         "&telefone="+cliente.getTelefone();
-                String url = "http://192.168.42.244:5000/cadastro/cadastrar";
+                String url = "http://192.168.195.104:5000/cadastro/cadastrar";
                 conectar.doConnect(context, url, parametros);
             }
             //Log.d("resposta: ", response.toString());

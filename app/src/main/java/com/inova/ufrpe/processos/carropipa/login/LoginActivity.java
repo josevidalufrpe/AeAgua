@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
     private EditText edt_login;
     private EditText edt_senha;
     //private final String url = "http://10.246.1.121:5000/login/logar";    //quando na ufrpe
-    private final String url = "http://192.168.42.244:5000/login/logar";    //via meu 4g
+    private final String url = "http://192.168.195.104:5000/login/logar";    //via meu 4g
     private String parametros = "";
     //private Usuario usuario= new Usuario();
     //private Pessoa pessoa = new Pessoa();
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AtivarGps();
         conectar = Conectar.getInstance();
         cliente = new Cliente();
         conectar.setOnLoginListener(LoginActivity.this);
@@ -106,6 +108,19 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
             startActivity(autentication);
         }else {
             Toast.makeText(LoginActivity.this, getString(R.string.userPass_failed), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void AtivarGps(){
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        //Se vier null ou length == 0   é por que o GPS esta desabilitado.
+        //Para abrir a tela do menu pode fazer assim:
+
+        if (provider.length()==0 ||provider.equals( null )){
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 1);
         }
     }
 }

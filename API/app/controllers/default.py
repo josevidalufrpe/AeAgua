@@ -57,7 +57,7 @@ def registrar():
             db.session.commit()
             u = Pessoa.query.filter_by(user_id=u.id).first()
             pessoa_id = u.id
-            i = PessoaFisica(None, nome,sobrenome,pessoa_id,telefone)
+            i = PessoaFisica("0", nome,sobrenome,pessoa_id,telefone)
             db.session.add(i)
             db.session.commit()
             i = Cliente(None, 0, user_id, pessoa_id )
@@ -246,7 +246,8 @@ def getPerfil():
             if p.tipo == "Pessoa Física":
                 p_tipo = PessoaFisica.query.filter_by(pessoa_id=p.id).first()
                 if p_tipo.cpf == '0' or p_tipo.telefone == 'x xxxx xxxx':
-                    return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank )
+                    print("login_ok,{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank, p_tipo.cpf ))
+                    return "login_ok,{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,c.id,c.rank, p_tipo.cpf )
                 else:
                     return "login_ok,{},{},{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome, p_tipo.sobrenome,p_tipo.cpf,p_tipo.telefone,c.id,c.rank )        
             else:
@@ -310,12 +311,23 @@ def atualizar():
 
 @carropipa.route("/pedido/fazer", methods=["GET", "POST"])
 def fazer_pedido():
-    pass
+    if request.method=="POST":
+        
+        valor = request.form.get["valor"]
+        
+        p = Pedido( '00:00', '00:00', valor, 1, 1)
+        db.session.add(p)
+        db.commit()
+        return "Cadastration_ok,"
 
 
 @carropipa.route("/pedido/ler", methods=["GET", "POST"])
 def ler_pedido():
-    pass
+    if request.method=="POST":
+        cliente_id = request.form.get["userid"]
+        p = Pedido.query.filter_by(client_id = client_id)
+        print(type(p), p)
+        
 
 
                 

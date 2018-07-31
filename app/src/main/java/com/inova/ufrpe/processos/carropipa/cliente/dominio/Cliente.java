@@ -177,7 +177,7 @@ public class Cliente implements Parcelable {
         dest.writeString(senha);
         dest.writeString(rank);
         dest.writeString(telefone);
-        dest.writeString(cep);
+        dest.writeString(cpf);
         dest.writeString(logradouro);
         dest.writeString(complemento);
         dest.writeString(cidade);
@@ -193,7 +193,7 @@ public class Cliente implements Parcelable {
         this.senha = parcel.readString();
         this.rank = parcel.readString();
         this.telefone = parcel.readString();
-        this.cep = parcel.readString();
+        this.cpf = parcel.readString();
         this.logradouro = parcel.readString();
         this.complemento = parcel.readString();
         this.cidade = parcel.readString();

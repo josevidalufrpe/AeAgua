@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         checkPermission();
         Intent autentication = getIntent();
         cliente = Objects.requireNonNull(autentication.getExtras()).getParcelable("cliente");
+        Log.d("ID CLIENTE:", Integer.toString(cliente.getId()));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
@@ -125,7 +127,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 break;
             case R.id.nav_pedir:
                 Intent solicitarAct = new Intent(M_MainActivity.this, SolicitarActivity.class);
-                solicitarAct.putExtra( "cliente",cliente);
+                solicitarAct.putExtra( "cliente", cliente);
                 startActivity(solicitarAct);
                 break;
             case R.id.nav_pagamento:
@@ -192,7 +194,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void updateLocation() {
-        //checkPermission();  //de novo???
+        checkPermission();  //de novo???
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {

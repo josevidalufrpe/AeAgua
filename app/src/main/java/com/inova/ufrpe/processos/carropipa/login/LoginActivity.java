@@ -96,7 +96,14 @@ public class LoginActivity extends AppCompatActivity implements Conectar.OnLogin
             cliente.setSobreNome(resultado[6]);
             cliente.setRank(resultado[8]);//esta retornando null (troca para 0.0)
             //setar os outro atributos da resposta??
-            cliente.setId(Integer.parseInt(resultado[7]));                                          //id da tabela cliente
+                                               //id da tabela cliente
+            if(resultado.length > 10){
+                cliente.setCpf(resultado[7]);
+                cliente.setId(Integer.parseInt(resultado[9]));
+            }else{
+                cliente.setCpf(resultado[8]);
+                cliente.setId(Integer.parseInt(resultado[7]));
+            }
             /*cliente.setSenha(resultado[]);
             cliente.setTipo(resultado[]);
             cliente.setBairro(resultado[]);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class PagamentosActivity extends AppCompatActivity {
 
-    private ArrayList<Pedido> pedidoArrayList = new ArrayList<>(  );
+    private ArrayList<Pedido> pedidoArrayList = new ArrayList<>();
     private AdapterPagamentoActivity adapterPagamentoActivity;
 
     private ListView listView;

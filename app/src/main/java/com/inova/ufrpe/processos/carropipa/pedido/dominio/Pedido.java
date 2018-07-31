@@ -21,7 +21,7 @@ public class Pedido implements Parcelable {
     public Pedido(Parcel in) {
 
         id = in.readInt();
-        motorista = in.readParcelable(Motorista.class.getClassLoader());
+        motorista = in.readParcelable(Cliente.class.getClassLoader());
         cliente = in.readParcelable(Cliente.class.getClassLoader());
         quantidade = in.readString();
         if (in.readByte() == 0) {

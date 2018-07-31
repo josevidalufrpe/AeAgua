@@ -142,7 +142,6 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                     perfilAct.putExtra("email", user_email);
                     perfilAct.putExtra("cliente",cliente);
                     startActivity(perfilAct);
-
                 }
                 break;
             case R.id.nav_pedir:
@@ -282,7 +281,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     public void goToCurrentLocation(Location location){
         if(location!= null){
             localizacao = location;
-            Toast.makeText( getApplicationContext(),"Pegamos sua localização",Toast.LENGTH_LONG ).show();
+            Toast.makeText(getApplicationContext(),"Pegamos sua localização",Toast.LENGTH_LONG ).show();
 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();

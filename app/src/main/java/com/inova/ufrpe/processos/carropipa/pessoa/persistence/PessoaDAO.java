@@ -9,7 +9,7 @@ import static java.lang.Boolean.TRUE;
 public class PessoaDAO {
 
    private String parametros;
-    private final String url = "http://10.246.1.121:5000/cadastro/criar_perfil";
+    private final String url = "http://10.246.217.119:5000/cadastro/criar_perfil_motorista";
     private Boolean response;
 
 
@@ -22,7 +22,7 @@ public class PessoaDAO {
      * o método salva é C/U de um CRUD
      */
     public Boolean salva(Pessoa pessoa, String email) {
-        parametros = "cpf=" + pessoa.getCpf() +"&logradouro=" + pessoa.getLogradouro() +"&complemento="
+        parametros ="&logradouro=" + pessoa.getLogradouro() +"&complemento="
                 + pessoa.getComplemento() +"&bairro=" + pessoa.getBairro() +"&cep=" + pessoa.getCep()+
         "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+email;
         new enviaDados().execute(url);

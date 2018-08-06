@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,14 +50,16 @@ public class PerfilActivity extends AppCompatActivity {
     private Spinner uf;
     private ImageView imageUser;
     private String user_email;
+    private String uf_Selecionado;
 
+    private Pessoa pessoa = new Pessoa();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_perfil );
 
-        cpf = findViewById(R.id.edt_cpf);
+        //cpf = findViewById(R.id.edt_cpf);
         logradouro = findViewById(R.id.edt_logradouro);
         complemento = findViewById(R.id.edt_complemento);
         cidade = findViewById(R.id.edt_cidade);
@@ -109,12 +112,12 @@ public class PerfilActivity extends AppCompatActivity {
 
         //Setar Spinners
         //Spiner Estados:
-        ArrayAdapter<String> enumTiposArrayAdapter;
-        enumTiposArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumTipos.EnumTiposLista());
-        pessoaTipo.setAdapter(enumTiposArrayAdapter);
-        enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
+//        ArrayAdapter<String> enumTiposArrayAdapter;
+//        enumTiposArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumTipos.EnumTiposLista());
+//        pessoaTipo.setAdapter(enumTiposArrayAdapter);
+//        enumTiposArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        Log.d("Verificando Spinner", pessoaTipo.getSelectedItem().toString());
 
 
         //Spiner Estados:
@@ -122,7 +125,16 @@ public class PerfilActivity extends AppCompatActivity {
         enumStadosArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, EnumStados.enumEstadosLista());
         uf.setAdapter(enumStadosArrayAdapter);
         enumStadosArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        uf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                uf_Selecionado = parent.getSelectedItem().toString();
+                Log.d("Verificando Spinner", uf_Selecionado);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
         //ação dos FABs:
         //Abrir Galeria
         abrirGaleria.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +192,7 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 verificarCampos();
-                //salvarPerfil();
+                salvarPerfil();
             }
         });
     }
@@ -194,9 +206,9 @@ public class PerfilActivity extends AppCompatActivity {
      */
     private void salvarPerfil() {
 
-        Pessoa pessoa = new Pessoa();
+
         //cpf = findViewById(R.id.edt_cpf);
-        pessoa.setCpf(cpf.getText().toString());
+        //pessoa.setCpf(cpf.getText().toString());
         //logradouro = findViewById(R.id.edt_logradouro);
         pessoa.setLogradouro(logradouro.getText().toString());
         //complemento = findViewById(R.id.edt_complemento);
@@ -265,7 +277,7 @@ public class PerfilActivity extends AppCompatActivity {
      */
     private void limparCampos() {
         try{
-        cpf.setText(cpf.getHint());
+        //cpf.setText(cpf.getHint());
         logradouro.setText(logradouro.getHint());
         complemento.setText(complemento.getHint());
         cidade.setText(cidade.getHint());
@@ -344,10 +356,7 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
     private void verificarCampos(){
-        if (cpf.getText().toString().trim().isEmpty()) {
-            cpf.setError(getString(R.string.err_emptyField));
-        }
-        else if (logradouro.getText().toString().trim().isEmpty()) {
+        if (logradouro.getText().toString().trim().isEmpty()) {
             logradouro.setError(getString(R.string.err_emptyField));
         }
         else if (complemento.getText().toString().trim().isEmpty()) {
@@ -362,11 +371,13 @@ public class PerfilActivity extends AppCompatActivity {
         }
         else if (cep.getText().toString().trim().isEmpty()) {
             cep.setError("Campo Vazio");
-        }
-        else if (uf.equals('0')){
+        }else if (uf_Selecionado.equals("0")){
             Toast.makeText(PerfilActivity.this, R.string.err_informUF,Toast.LENGTH_LONG).show();
         }
-        else if(validarNumero(cpf.getText().toString().trim() )&&validarNumero(cep.getText().toString().trim()) ){
+        else if(validarNumero(cep.getText().toString().trim()) ){
+        }
+        else{
+            pessoa.setUf( uf_Selecionado );
             salvarPerfil();
         }
 

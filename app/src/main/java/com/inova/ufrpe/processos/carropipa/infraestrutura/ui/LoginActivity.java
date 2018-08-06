@@ -16,13 +16,22 @@ import android.widget.Toast;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Veiculo;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
+import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private final String url = "http://10.246.1.121:5000/login/logar";
+    private final String url = "http://10.246.1.121:5000/login/logar_motorista";
     private String parametros = "";
+
+    private Motorista motorista;
+    private Pessoa pessoa;
+    private Usuario usuario;
+    private Veiculo veiculo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +106,9 @@ public class LoginActivity extends AppCompatActivity {
             if(resultado[0].contains("login_ok")){
                 //exibir toast apenas para verificar os dados q chegam do servidor
                 Intent autentication = new Intent(LoginActivity.this,M_MainActivity.class);
+
+
+
                 autentication.putExtra("email",resultado[1]);
                 autentication.putExtra("nome",resultado[2]);
                 autentication.putExtra("snome",resultado[3]);

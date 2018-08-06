@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,8 +37,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inova.ufrpe.processos.carropipa.R;
+import com.inova.ufrpe.processos.carropipa.ajuda.AjudaActivity;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
+import com.inova.ufrpe.processos.carropipa.pagamentos.PagamentosActivity;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
+import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 import java.util.HashMap;
 
@@ -52,25 +57,30 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private Pedido pedido;
     private String destinolongitude;
     private String destinolatitude;
+    private Motorista motorista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_m__main );
         checkPermission();
+        Intent autentication = getIntent();
+        motorista = (Motorista) autentication.getExtras().getSerializable("motorista");
+        Usuario recUsuario = (Usuario) autentication.getExtras().getParcelable("usuario");
+        motorista.getPessoa().setUsuario(  recUsuario);
         database = FirebaseDatabase.getInstance();
         pedido = new Pedido();
         DatabaseReference myRef = database.getReference("pedido").child("100");//bota cpf do cara
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+
                 pedido.setQuantidade( dataSnapshot.child( "quantidade" ).getValue().toString() );
                 Pessoa pessoa = new Pessoa();
-                pessoa.setNome( dataSnapshot.child( "cliente" ).child( "pessoa" ).child("nome").getValue().toString() );
+                pessoa.setNome( dataSnapshot.child( "cliente" ).child("nome").getValue().toString() );
                 destinolatitude = dataSnapshot.child("latitude" ).getValue().toString();
                 destinolongitude = dataSnapshot.child("longitude" ).getValue().toString();
+
                 // tela de aceitação de chamado
                 AlertDialog.Builder chamado = new AlertDialog.Builder(M_MainActivity.this);
                 View ViewChamado = getLayoutInflater().inflate(R.layout.activity_chamado, null);
@@ -86,7 +96,6 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 chamado.setView(ViewChamado);
                 final AlertDialog dialog2 = chamado.create();
                 dialog2.show();
-
                 botaoAceitar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -95,16 +104,16 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                         dialog2.dismiss();
                         try {
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                      Uri.parse("http://maps.google.com/maps?saddr=&daddr=" + destinolatitude + "," + destinolongitude));
+                                    Uri.parse("http://maps.google.com/maps?saddr=&daddr=" + destinolatitude + "," + destinolongitude));
 
-                              intent.setComponent(new ComponentName(getString(R.string.comandoAppMaps), getString(R.string.comandoMapsActivity)));
+                            intent.setComponent(new ComponentName(getString(R.string.comandoAppMaps), getString(R.string.comandoMapsActivity)));
 
-                              startActivity(intent);
+                            startActivity(intent);
                         } catch (Exception ex) {
-                              ex.printStackTrace();
-                              Toast.makeText(M_MainActivity.this, R.string.erroNaoTemGoogleMaps, Toast.LENGTH_SHORT).show();
-                            }
+                            ex.printStackTrace();
+                            Toast.makeText(M_MainActivity.this, R.string.erroNaoTemGoogleMaps, Toast.LENGTH_SHORT).show();
                         }
+                    }
 
                 });
 
@@ -119,8 +128,9 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
                 //Log.d(TAG, "Value is: " + value);
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
@@ -130,11 +140,12 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         });
 
         //Pega os dados vindos após o login
-        Intent autentication = getIntent();
-        user_email = autentication.getStringExtra("email");
-        String user_name = autentication.getStringExtra("nome");
-        String user_sname = autentication.getStringExtra("snome");
-        String user_rank = autentication.getStringExtra("rank");
+
+        user_email = motorista.getPessoa().getUsuario().getEmail();
+
+        String user_name = motorista.getPessoa().getNome();
+        String user_sname = motorista.getPessoa().getSnome();
+        String user_rank = motorista.getRank();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
         mapFragment.getMapAsync( this );
@@ -195,18 +206,29 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         switch (id) {
             case R.id.nav_perfil:
                 Intent perfilAct = new Intent(M_MainActivity.this, PerfilActivity.class);
-                perfilAct.putExtra("email", user_email);
+                Bundle bundle = new Bundle(  );
+                bundle.putSerializable("motorista",motorista);
+                perfilAct.putExtras( bundle );
                 startActivity(perfilAct);
                 break;
-            case R.id.nav_pedir:
-                Intent solicitarAct = new Intent(M_MainActivity.this, SolicitarActivity.class);
-                startActivity(solicitarAct);
-                break;
             case R.id.nav_pagamento:
+
+                Intent viewPagAct = new Intent(M_MainActivity.this, PagamentosActivity.class);
+                Bundle bundle2 = new Bundle(  );
+                bundle2.putSerializable("motorista",motorista);
+                viewPagAct.putExtras( bundle2 );
+                startActivity(viewPagAct);
+
                 break;
             case R.id.nav_ajuda:
+
+                Intent ajudaAct = new Intent(M_MainActivity.this, AjudaActivity.class );
+                startActivity( ajudaAct );
                 break;
             case R.id.nav_sobre:
+
+                Intent sobreAct = new Intent(M_MainActivity.this, SobreActivity.class);
+                startActivity(sobreAct);
                 break;
             case R.id.nav_sair:
                 finish();

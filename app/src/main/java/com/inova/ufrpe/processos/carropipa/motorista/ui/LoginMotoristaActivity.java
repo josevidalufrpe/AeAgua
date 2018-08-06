@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,10 @@ import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.ui.M_MainActivity;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.validadores.Validacao;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Veiculo;
+import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
+import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 public class LoginMotoristaActivity extends AppCompatActivity {
 
@@ -25,6 +30,12 @@ public class LoginMotoristaActivity extends AppCompatActivity {
     private EditText edt_senha;
     private String url = "";
     private String parametros = "";
+
+    private Motorista motorista = new Motorista();
+    private Pessoa pessoa = new Pessoa();
+    private Usuario usuario = new Usuario();
+    private Veiculo veiculo = new Veiculo();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +75,7 @@ public class LoginMotoristaActivity extends AppCompatActivity {
 
                     } else {
                         //TODO IP para connected.
-                        url = "http://10.246.1.121:5000/login/logar_motorista";
+                        url = "http://10.246.217.119:5000/login/logar_motorista";
                         parametros = "email=" + emailUser +"&senha=" + senhaUser;
                         new SolicitaDados().execute(url);
                     }
@@ -96,20 +107,71 @@ public class LoginMotoristaActivity extends AppCompatActivity {
             //Criado para tratar a nova String vinda do Servidor;
 
             String[] resultado = results.split(",");
-            Log.d("OLHO NO LANCE!",resultado[1]);
-
+            //Log.d("OLHO NO LANCE!",resultado[1]);
             if(resultado[0].contains("login_ok")){
                 //exibir toast apenas para verificar os dados q chegam do servidor
-                Intent autentication = new Intent(LoginMotoristaActivity.this,M_MainActivity.class);
-                //autentication.putExtra("nome",resultado[1]);
-                //autentication.putExtra("snome",resultado[2]);
-                autentication.putExtra("email",resultado[1]);
-                //autentication.putExtra("acesso",resultado[4]);
-                startActivity(autentication);
-            }
-            else {
+                if(resultado.length==16){
+                    montarObjetoPf(resultado);
+                    irTelaMain();
+                }else{
+                    montarObjetoPj(resultado);
+                    irTelaMain();
+                }
+            } else {
                 Toast.makeText(LoginMotoristaActivity.this, getString(R.string.userPass_failed), Toast.LENGTH_SHORT).show();
             }
+        }
+        public void montarObjetoPf(String[] resultado){
+            usuario.setId( Integer.parseInt( resultado[1] ) );
+            usuario.setEmail(resultado[2]  );
+            usuario.setSenha(resultado[3]  );
+            pessoa.setId( Long.valueOf( resultado[4] ) );
+            pessoa.setNome( resultado[5] );
+            pessoa.setSnome( resultado[6] );
+            pessoa.setCpf(resultado[7]);
+            pessoa.setTelefone( resultado[8] );
+            pessoa.setUsuario( usuario);
+            motorista.setId( Long.valueOf( resultado[9] ) );
+            motorista.setRank( resultado[10] );
+            motorista.setCnh( resultado[11] );
+            motorista.setPessoa( pessoa );
+            veiculo.setId( Integer.parseInt( resultado[12] ) );
+            veiculo.setPlaca( resultado[13] );
+            veiculo.setCor( resultado[14] );
+            veiculo.setCapacidade( resultado[15] );
+            motorista.setVeiculo( veiculo );
+
+        }
+        public void montarObjetoPj(String[] resultado){
+
+            usuario.setId( Integer.parseInt( resultado[1] ) );
+            usuario.setEmail(resultado[2]  );
+            usuario.setSenha(resultado[3]  );
+            pessoa.setId( Long.valueOf( resultado[4] ) );
+            pessoa.setNome( resultado[5] );
+            //pessoa.setSnome( resultado[6] );
+            pessoa.setCpf(resultado[7]);
+            //pessoa.setTelefone( resultado[7] );
+            pessoa.setUsuario( usuario);
+            motorista.setId( Long.valueOf( resultado[8] ) );
+            motorista.setRank( resultado[9] );
+            motorista.setCnh( resultado[10] );
+            motorista.setPessoa( pessoa );
+            motorista.setRank( resultado[11] );
+            veiculo.setId( Integer.parseInt( resultado[12] ) );
+            veiculo.setPlaca( resultado[13] );
+            veiculo.setCor( resultado[14] );
+            veiculo.setCapacidade( resultado[15] );
+            motorista.setVeiculo( veiculo );
+
+        }
+        public void irTelaMain(){
+            Intent autentication = new Intent(LoginMotoristaActivity.this,M_MainActivity.class);
+            Bundle bundle = new Bundle(  );
+            bundle.putSerializable("motorista",motorista);
+            autentication.putExtras( bundle );
+            autentication.putExtra( "usuario", (Parcelable) usuario );
+            startActivity(autentication);
         }
     }
 }

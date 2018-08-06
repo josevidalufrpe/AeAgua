@@ -43,12 +43,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".infraestrutura.ui.LoginActivity" />
+        <activity android:name=".motorista.ui.LoginMotoristaActivity" />
         <activity
             android:name=".infraestrutura.ui.M_MainActivity"
             android:label="@string/title_activity_m__main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".infraestrutura.ui.CriarContaUsuarioFinalActivity" />
+        <activity android:name=".motorista.ui.CriarContaMotoristaActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -66,6 +66,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".infraestrutura.ui.PerfilActivity" />
         <activity android:name=".infraestrutura.ui.SolicitarActivity"/>
+        <activity android:name=".pagamentos.PagamentosActivity"/>
     </application>
 
 </manifest>

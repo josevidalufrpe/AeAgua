@@ -63,5 +63,25 @@
     <string name="erroNaoTemGoogleMaps">Verifique se o Google Maps está instalado em seu dispositivo</string>
     <string name="comandoAppMaps">com.google.android.apps.maps</string>
     <string name="comandoMapsActivity">com.google.android.maps.MapsActivity</string>
-
+    <string name="str_info">AêÁgua ajuda    1º Perfil: você pode ver ou Alterar o PERFIL se não existir.   2º Solicitar: você pode solicitar um caminhão de água.</string>
+    <string name="lbl_nome">Nome:</string>
+    <string name="lbl_userName">nome do usuario</string>
+    <string name="lbl_sobrenome">SobreNome:</string>
+    <string name="lbl_userLastName">SobreNome do usuario</string>
+    <string name="lbl_email">Email:</string>
+    <string name="lbl_emailUser">Email do Usuario</string>
+    <string name="lbl_CPF">CPF:</string>
+    <string name="lbl_cpfUser">CPF do usuario</string>
+    <string name="lbl_telefone">Telefone:</string>
+    <string name="lbl_userTelefone">Telefone do usuario</string>
+    <string name="btn_alterar">ALTERAR</string>
+    <string name="lbl_motorista">Motorista:</string>
+    <string name="lbl_nameMotorista">Nome do Motorista</string>
+    <string name="lbl_quantidade">Quantidade:</string>
+    <string name="lbl_valorQtd">valor Quantidade</string>
+    <string name="lbl_ValorPago">Valor Pago:</string>
+    <string name="lbl_reais">Reais</string>
+    <string name="Str_About"><![CDATA[Esse Aplicativo foi feito por 2 Discentes de Barchalerado em Sistemas de Informação para ajuda na solucionar a falta de agua em certas:  ==> Felipe Caetano <==  ==>    José Vidal      <==  para a disciplina de Processo 2018.1]]></string>
+    <string name="escolha_pessoa">Escolha o Tipo de Pessoa!</string>
+    <string name="falha">Falha!</string>
 </resources>

@@ -35,7 +35,7 @@ public class CriarContaUsuarioFinalActivity extends AppCompatActivity {
     private String senha;
     private String tipo;
     private String parametros = "";
-    private final String url = "http://10.246.217.119:5000/cadastro/cadastrar";
+    private final String url = "http://192.168.42.244:5000/cadastro/cadastrar";
     //private final String url = "http://192.168.1.101:5000/cadastro/cadastrar";
 
     @Override

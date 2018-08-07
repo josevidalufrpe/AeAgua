@@ -165,6 +165,7 @@ class Avaliacao(db.Model):
         self.cliente_id = cliente_id
         self.motorista_id = motorista_id
 
+
 class Veiculo(db.Model):
     __tablename__ = 'veiculos'
     id = db.Column(db.Integer, primary_key=True)
@@ -190,7 +191,7 @@ class Pedido(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hora_inicial = db.Column(db.String)
     hora_final = db.Column(db.String)
-    valor = db.Column(db.Float)
+    valor = db.Column(db.String)
 
     cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
     motorista_id = db.Column(db.Integer, db.ForeignKey('motoristas.id'))
@@ -204,6 +205,7 @@ class Pedido(db.Model):
         self.valor = valor
         self.cliente_id = cliente_id
         self.motorista_id = motorista_id
+
 
 class Pagamento(db.Model):
     __tablename__ = 'pagamentos'

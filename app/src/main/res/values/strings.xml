@@ -62,4 +62,7 @@
     <string name="err_emptyField">Campo Vazio</string>
     <string name="erroEnumQtd">Escolha uma quantidade de água porfavor</string>
     <string name="trueEnumQtd">Pedido Enviado</string>
+    <string name="informe_cpf">Por favor, informe seu CPF</string>
+    <string name="btn_confirmar">OK</string>
+    <string name="btn_cancelar">Cancelar</string>
 </resources>

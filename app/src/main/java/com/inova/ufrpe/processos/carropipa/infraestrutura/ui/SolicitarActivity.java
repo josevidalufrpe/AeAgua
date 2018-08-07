@@ -1,12 +1,21 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
+import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,10 +23,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
+import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.motorista.dominio.EnumQuatd;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 public class SolicitarActivity extends AppCompatActivity {
 
@@ -26,7 +41,7 @@ public class SolicitarActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private Pedido pedido = new Pedido();
     private Location location = M_MainActivity.localizacao;
-
+    private String parametros;
     private Cliente cliente = new Cliente();
 
     @Override
@@ -36,6 +51,7 @@ public class SolicitarActivity extends AppCompatActivity {
 
         Intent autentication = getIntent();
         cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
+        Log.d("OLHA AÌ: ", cliente.getPessoa().getCpf());
 
         quantidade = findViewById(R.id.spn_qtd);
 
@@ -53,37 +69,87 @@ public class SolicitarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String quantidadePedida = quantidade.getSelectedItem().toString();
 
-                if(!quantidadePedida.equals( "Escolha a Quantidade de ajuda" )) {
-                    //Cliente cliente = new Cliente();
-                    //cliente.setId( 1 );
-                    //Pessoa pessoa = new Pessoa();
-                    //pessoa.setNome( "VIDAL" );
-                    //pessoa.setId( (long) 1 );
-                    cliente.getPessoa().setCpf( "100" );
-                    //Usuario usuario = new Usuario();
-                    //usuario.setId( 1 );
-                    //pessoa.setUsuario( usuario );
-                    //cliente.setPessoa( pessoa );
-
-                    pedido.setCliente( cliente );
-                    pedido.setLatitude( location.getLatitude() );
-                    pedido.setLongitude( location.getLongitude() );
-                    pedido.setQuantidade( quantidade.getSelectedItem().toString() );
-
-
-
-                    databaseReference = FirebaseDatabase.getInstance()
-                            .getReference( "pedido" ).child( cliente.getPessoa().getCpf() );
-                    databaseReference.setValue( pedido );
-
-                    Toast.makeText( getApplicationContext(), R.string.trueEnumQtd, Toast.LENGTH_LONG ).show();
-                    finish();
-                }
-                else{
+                if(!quantidadePedida.equals( "Escolha a Quantidade de Água" )) {
+                    if (cliente.getPessoa().getCpf().equals("0")) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(SolicitarActivity.this);
+                        final EditText input = new EditText(SolicitarActivity.this);
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT);
+                        input.setLayoutParams(lp);
+                        builder.setView(input);
+                        builder.setTitle(R.string.informe_cpf)
+                                .setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        cliente.getPessoa().setCpf(input.getText().toString());
+                                        setarPedido();
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // User cancelled the dialog
+                                        finish();
+                                    }
+                                });
+                        // Create the AlertDialog object and return it
+                        builder.create();
+                        builder.show();
+                    }
+                }else{
                     Toast.makeText( getApplicationContext(), R.string.erroEnumQtd, Toast.LENGTH_LONG ).show();
                 }
             }
         } );
+    }
 
+    private void setarPedido() {
+        pedido.setCliente(cliente);
+        pedido.setLatitude(location.getLatitude());
+        pedido.setLongitude(location.getLongitude());
+        pedido.setQuantidade(quantidade.getSelectedItem().toString());
+        pedido.setValor(new Random().nextInt((500-150)+1));
+
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("pedido").child(cliente.getPessoa().getCpf());
+        databaseReference.setValue(pedido);
+
+        savePedido();
+    }
+
+    public void savePedido(){
+        String url = "http://192.168.42.244:5000/cadastro/cadastrarpedido";
+        //String url = "http://192.168.1.101:5000/login/getperfil";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/YY - HH:mm");
+        Date datahora = Calendar.getInstance().getTime();
+        String dataini = simpleDateFormat.format(datahora);
+
+        parametros = "horaini="+ dataini + "&valor=" + pedido.getValor() + "&clienteid=" + cliente.getId();
+        new SolicitaDados().execute(url);
+    }
+    private class SolicitaDados extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
+            return Conexao.postDados(url[0], parametros);
+        }
+
+        //exibe os resultados
+        @Override
+        protected void onPostExecute(String results) {
+
+            //Criado para tratar a nova String vinda do Servidor;
+
+            String[] resultado = results.split( "," );
+            //Log.d("OLHO NO LANCE!",resultado[1]);
+            //TODO falta verificar se é juridica ou fisica
+            // está so pegando a resposta de fisica
+            Log.e("ERROU", results);
+            if (resultado[0].contains( "Cadastration_ok" )) {
+                Toast.makeText(getApplicationContext(), R.string.trueEnumQtd, Toast.LENGTH_LONG).show();
+                finish();
+                }else {
+                Toast.makeText(getApplicationContext(), R.string.cadastration_failed, Toast.LENGTH_LONG).show();
+                }
+            }
     }
 }
+

@@ -308,7 +308,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
     }
     public void getPerfil(){
-        String url = "http://10.246.217.119:5000/login/getperfil";
+        String url = "http://192.168.42.244:5000/login/getperfil";
         //String url = "http://192.168.1.101:5000/login/getperfil";
         new SolicitaDados().execute(url);
     }

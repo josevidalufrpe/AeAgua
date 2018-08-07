@@ -17,11 +17,37 @@ from app.models.tables import PessoaJuridica
 from app.models.tables import Cliente
 from app.models.tables import Endereco
 from app.models.tables import Motorista
+from app.models.tables import Pedido
 
 
 @carropipa.route("/")
 def index():
     return render_template('index.html')
+
+@carropipa.route("/cadastro/atualizar", methods=["GET","POST"])
+def atualizar():
+    if request.method=="POST":
+        id = request.form.get('id')
+        tipo = request.form.get('tipo')
+        cpf = request.form.get('cpf')
+
+        #recuperar o id que foi inserido no banco
+        u = User.query.filter_by(id=id).first()
+        if u and tipo=="Pessoa Física":
+            user_id = u.id
+            u = Pessoa.query.filter_by(user_id=u.id).first()
+            pessoa_id = u.id
+            u = PessoaFisica.query.filter_by(pessoa_id=pessoa_id).first().update({"cpf":cpf}, synchronize_session=False)
+            db.session.add(u)
+            db.session.commit()
+            #c = Cliente.query.filter_by(pessoa_id=u.id).first()
+            return "cadastration_ok,"  #um dia retornar .Json
+
+        elif u and tipo=="Pessoa Juridica":
+
+            pass
+
+
 
 @carropipa.route("/cadastro/cadastrar", methods=["GET","POST"])
 def registrar():
@@ -107,6 +133,8 @@ def registrar_motorista():
             return "cadastration_ok,{},{}".format(nome, sobrenome)  #um dia retornar .Json
         else:
             return "cadastration_fail"
+
+
 @carropipa.route("/cadastro/criar_perfil", methods=["GET","POST"])
 def criar_perfil():
     if request.method=="POST":
@@ -240,3 +268,19 @@ def getPerfil():
                     return "login_ok,{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,c.id,c.rank )
                 else:
                     return "login_ok,{},{},{},{},{},{},{},{}".format(u.id,u.usermail,u.password,p.id, p_tipo.nome,p_tipo.cnpj,c.id,c.rank )
+
+
+@carropipa.route("/cadastro/cadastrarpedido", methods=["post","get"])
+def cadastrar_pedido():
+    if request.method == "POST":
+        dataini = request.form.get("horaini")
+        valor = request.form.get("valor")
+
+        cliente_id = request.form.get("clienteid")
+
+        pedido = Pedido(dataini, None, valor, cliente_id, None)
+
+        db.session.add(pedido)
+        db.session.commit()
+        print(db.session)
+        return "Cadastration_ok,"

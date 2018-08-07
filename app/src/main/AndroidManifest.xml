@@ -36,6 +36,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/providers_path" />
         </provider>
+
         <activity android:name=".infraestrutura.ui.ApresentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,8 +66,10 @@
             android:name=".infraestrutura.ui.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".infraestrutura.ui.PerfilActivity" />
-        <activity android:name=".infraestrutura.ui.SolicitarActivity"/>
-        <activity android:name=".pagamentos.PagamentosActivity"/>
+        <activity android:name=".infraestrutura.ui.SolicitarActivity" />
+        <activity android:name=".pagamentos.PagamentosActivity" />
+        <activity android:name=".motorista.ui.CheckOffActivity" />
+        <activity android:name=".infraestrutura.ui.ViewPerfilActivity"></activity>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ public class PessoaDAO {
 
    private String parametros;
     private final String url = "http://10.246.217.119:5000/cadastro/criar_perfil_motorista";
+    //private final String url = "http://192.168.1.101:5000/cadastro/criar_perfil_motorista";
     private Boolean response;
 
 
@@ -21,10 +22,10 @@ public class PessoaDAO {
      *         False - se houve falha no registro
      * o método salva é C/U de um CRUD
      */
-    public Boolean salva(Pessoa pessoa, String email) {
+    public Boolean salva(Pessoa pessoa, String email,String senha) {
         parametros ="&logradouro=" + pessoa.getLogradouro() +"&complemento="
                 + pessoa.getComplemento() +"&bairro=" + pessoa.getBairro() +"&cep=" + pessoa.getCep()+
-        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+email;
+        "&cidade="+pessoa.getCidade()+"&uf="+pessoa.getUf()+"&usermail="+email+"&senha="+senha;
         new enviaDados().execute(url);
         return response;
     }

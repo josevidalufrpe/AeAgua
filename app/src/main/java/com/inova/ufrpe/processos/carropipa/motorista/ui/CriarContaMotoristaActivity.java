@@ -50,7 +50,7 @@ public class CriarContaMotoristaActivity extends AppCompatActivity {
     //info.. API
     private String parametros = "";
     private final String url = "http://10.246.217.119:5000/cadastro/cadastrar_motorista";
-    //private final String url = "http://192.168.1.100:5000/cadastro/cadastrar_motorista";
+    //private final String url = "http://192.168.1.101:5000/cadastro/cadastrar_motorista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

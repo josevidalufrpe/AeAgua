@@ -119,6 +119,8 @@ public class Pessoa implements Parcelable, Serializable {
         dest.writeString(this.cep);
         dest.writeString(this.cidade);
         dest.writeString(this.uf);
+        dest.writeString( this.nome );
+        dest.writeString( this.Snome );
     }
 
     private void readFromParcel(Parcel parcel) {
@@ -131,6 +133,8 @@ public class Pessoa implements Parcelable, Serializable {
         this.cep = parcel.readString();
         this.cidade = parcel.readString();
         this.uf = parcel.readString();
+        this.nome = parcel.readString();
+        this.Snome = parcel.readString();
     }
 
     public static final Parcelable.Creator<Pessoa> CREATOR = new Parcelable.Creator<Pessoa>() {

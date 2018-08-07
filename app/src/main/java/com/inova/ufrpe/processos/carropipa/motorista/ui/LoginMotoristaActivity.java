@@ -76,6 +76,7 @@ public class LoginMotoristaActivity extends AppCompatActivity {
                     } else {
                         //TODO IP para connected.
                         url = "http://10.246.217.119:5000/login/logar_motorista";
+                        //url = "http://192.168.1.101:5000/login/logar_motorista";
                         parametros = "email=" + emailUser +"&senha=" + senhaUser;
                         new SolicitaDados().execute(url);
                     }
@@ -130,17 +131,16 @@ public class LoginMotoristaActivity extends AppCompatActivity {
             pessoa.setSnome( resultado[6] );
             pessoa.setCpf(resultado[7]);
             pessoa.setTelefone( resultado[8] );
-            pessoa.setUsuario( usuario);
+            //pessoa.setUsuario( usuario);
             motorista.setId( Long.valueOf( resultado[9] ) );
             motorista.setRank( resultado[10] );
             motorista.setCnh( resultado[11] );
-            motorista.setPessoa( pessoa );
+            //motorista.setPessoa( pessoa );
             veiculo.setId( Integer.parseInt( resultado[12] ) );
             veiculo.setPlaca( resultado[13] );
             veiculo.setCor( resultado[14] );
             veiculo.setCapacidade( resultado[15] );
-            motorista.setVeiculo( veiculo );
-
+            //motorista.setVeiculo( veiculo );
         }
         public void montarObjetoPj(String[] resultado){
 
@@ -152,25 +152,28 @@ public class LoginMotoristaActivity extends AppCompatActivity {
             //pessoa.setSnome( resultado[6] );
             pessoa.setCpf(resultado[7]);
             //pessoa.setTelefone( resultado[7] );
-            pessoa.setUsuario( usuario);
+            //pessoa.setUsuario( usuario);
             motorista.setId( Long.valueOf( resultado[8] ) );
             motorista.setRank( resultado[9] );
             motorista.setCnh( resultado[10] );
-            motorista.setPessoa( pessoa );
+            //motorista.setPessoa( pessoa );
             motorista.setRank( resultado[11] );
             veiculo.setId( Integer.parseInt( resultado[12] ) );
             veiculo.setPlaca( resultado[13] );
             veiculo.setCor( resultado[14] );
             veiculo.setCapacidade( resultado[15] );
-            motorista.setVeiculo( veiculo );
+            //motorista.setVeiculo( veiculo );
 
         }
         public void irTelaMain(){
             Intent autentication = new Intent(LoginMotoristaActivity.this,M_MainActivity.class);
             Bundle bundle = new Bundle(  );
             bundle.putSerializable("motorista",motorista);
+            bundle.putSerializable( "pessoa",pessoa );
+            bundle.putSerializable("usuario",usuario );
+            bundle.putSerializable( "veiculo",veiculo );
             autentication.putExtras( bundle );
-            autentication.putExtra( "usuario", (Parcelable) usuario );
+
             startActivity(autentication);
         }
     }

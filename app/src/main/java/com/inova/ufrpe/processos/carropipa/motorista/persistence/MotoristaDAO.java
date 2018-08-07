@@ -11,7 +11,7 @@ import static java.lang.Boolean.TRUE;
 public class MotoristaDAO {
 
     private String parametros;
-    private final String url = "http://192.168.15.148:5000/cadastro/criar_perfil";
+    private final String url = "http://192.168.1.101:5000/cadastro/criar_perfil_Motorista";
     private Boolean response;
 
 

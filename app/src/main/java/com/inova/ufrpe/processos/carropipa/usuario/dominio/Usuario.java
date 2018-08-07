@@ -8,8 +8,10 @@ import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import java.io.Serializable;
 
 public class Usuario implements Parcelable, Serializable {
+
     private int id;
     private String email;
+    private String senha;
 
     public int getId() {
         return id;
@@ -35,7 +37,7 @@ public class Usuario implements Parcelable, Serializable {
         this.senha = senha;
     }
 
-    private String senha;
+
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
@@ -49,7 +51,7 @@ public class Usuario implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeInt(this.id);
         dest.writeString(this.email);
         dest.writeString(this.senha);
     }

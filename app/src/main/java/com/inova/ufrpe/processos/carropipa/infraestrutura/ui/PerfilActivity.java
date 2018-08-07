@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.hardware.ExternalStorage;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumStados;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.EnumTipos;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
@@ -50,6 +51,7 @@ public class PerfilActivity extends AppCompatActivity {
     private Spinner uf;
     private ImageView imageUser;
     private String user_email;
+    private String user_senha;
     private String uf_Selecionado;
 
     private Pessoa pessoa = new Pessoa();
@@ -69,6 +71,9 @@ public class PerfilActivity extends AppCompatActivity {
 
         Intent autentication = getIntent();
         user_email = autentication.getStringExtra("email");
+        user_senha = autentication.getStringExtra( "senha" );
+        //motorista = (Motorista) autentication.getExtras().getSerializable("motorista");
+        //pessoa = (Pessoa) autentication.getExtras().getSerializable("pessoa");
 
         Button limpar = findViewById(R.id.btn_limpar);
         Button enviar = findViewById(R.id.btn_enviar);
@@ -79,7 +84,7 @@ public class PerfilActivity extends AppCompatActivity {
         uf = findViewById(R.id.spn_uf);
         //pessoa.setUf(uf.getSelectedItem().toString()); //ler o spinner
         //Log.d("Estou Lendo:",pessoa.getUf());
-        Spinner pessoaTipo = findViewById(R.id.spn_tipo);
+        //Spinner pessoaTipo = findViewById(R.id.spn_tipo);
 
 
         //permissões para manipular arquivos:
@@ -229,7 +234,8 @@ public class PerfilActivity extends AppCompatActivity {
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if (isConnected){
-            pessoaDAO.salva(pessoa, user_email);
+            pessoaDAO.salva(pessoa, user_email,user_senha);
+            finish();
         }else{
             Toast.makeText(PerfilActivity.this, getString(R.string.connection_failed), Toast.LENGTH_SHORT).show(); }
     }

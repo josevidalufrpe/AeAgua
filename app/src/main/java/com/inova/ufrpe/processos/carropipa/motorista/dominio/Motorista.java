@@ -59,6 +59,7 @@ public class Motorista implements Parcelable, Serializable {
 
         dest.writeLong(id);
         dest.writeString(this.cnh );
+        dest.writeString( this.rank );
 
     }
 
@@ -66,6 +67,7 @@ public class Motorista implements Parcelable, Serializable {
         //le os dados na ordem que foram escritos
         this.id = parcel.readLong();
         this.cnh = parcel.readString();
+        this.rank = parcel.readString();
 
     }
 

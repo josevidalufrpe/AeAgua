@@ -1,16 +1,13 @@
 package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,8 +23,6 @@ import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
 import com.inova.ufrpe.processos.carropipa.motorista.dominio.EnumQuatd;
 import com.inova.ufrpe.processos.carropipa.pedido.dominio.Pedido;
-import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
-import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +37,7 @@ public class SolicitarActivity extends AppCompatActivity {
     private Pedido pedido = new Pedido();
     private Location location = M_MainActivity.localizacao;
     private String parametros;
+
     private Cliente cliente = new Cliente();
 
     @Override
@@ -51,7 +47,6 @@ public class SolicitarActivity extends AppCompatActivity {
 
         Intent autentication = getIntent();
         cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
-        Log.d("OLHA AÌ: ", cliente.getPessoa().getCpf());
 
         quantidade = findViewById(R.id.spn_qtd);
 
@@ -117,18 +112,20 @@ public class SolicitarActivity extends AppCompatActivity {
     }
 
     public void savePedido(){
-        String url = "http://192.168.42.244:5000/cadastro/cadastrarpedido";
+        String url = "http://10.246.1.121:5000/cadastro/cadastrarpedido";
         //String url = "http://192.168.1.101:5000/login/getperfil";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/YY - HH:mm");
         Date datahora = Calendar.getInstance().getTime();
         String dataini = simpleDateFormat.format(datahora);
 
         parametros = "horaini="+ dataini + "&valor=" + pedido.getValor() + "&clienteid=" + cliente.getId();
+        Log.e("ENVIOU", parametros);
         new SolicitaDados().execute(url);
     }
     private class SolicitaDados extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... url) {
+            Log.e("Chamou", url[0]);
             return Conexao.postDados(url[0], parametros);
         }
 
@@ -146,10 +143,9 @@ public class SolicitarActivity extends AppCompatActivity {
             if (resultado[0].contains( "Cadastration_ok" )) {
                 Toast.makeText(getApplicationContext(), R.string.trueEnumQtd, Toast.LENGTH_LONG).show();
                 finish();
-                }else {
+            }else {
                 Toast.makeText(getApplicationContext(), R.string.cadastration_failed, Toast.LENGTH_LONG).show();
-                }
             }
+        }
     }
 }
-

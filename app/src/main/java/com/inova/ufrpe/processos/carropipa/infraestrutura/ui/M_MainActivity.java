@@ -3,6 +3,7 @@ package com.inova.ufrpe.processos.carropipa.infraestrutura.ui;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,7 +16,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.StaticLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +28,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
+import com.inova.ufrpe.processos.carropipa.motorista.dominio.Motorista;
 import com.inova.ufrpe.processos.carropipa.pessoa.dominio.Pessoa;
 import com.inova.ufrpe.processos.carropipa.pessoa.ui.ViewPerfilActivity;
 import com.inova.ufrpe.processos.carropipa.usuario.dominio.Usuario;
@@ -54,14 +61,17 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int REQUEST_FINE_LOCATION = 1;
     private GoogleMap mMap;
     private Cliente cliente = new Cliente();
+    private Motorista motorista;
     private String parametros;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_m__main );
+
         //Pega os dados vindos após o login
         checkPermission();
         setarInformaçoes();
+        setRanking(); //APENAS PARA TESTE do RATINGBAR
         //fim de Pega os dados vindos após o login
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
@@ -125,7 +135,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //TODO tenho que atualizar ao abrir o menu lateral
-        getPerfil();
+
         //
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -136,8 +146,10 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                     perfilAct.putExtra("email", user_email);
                     perfilAct.putExtra("cliente",cliente);
                     startActivity(perfilAct);
+                    getPerfil();
                 }
                 else{
+                    getPerfil();
                     Intent perfilAct = new Intent(M_MainActivity.this, ViewPerfilActivity.class);
                     perfilAct.putExtra("email", user_email);
                     perfilAct.putExtra("cliente",cliente);
@@ -161,12 +173,11 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                 break;
             case R.id.nav_sobre:
                 Intent sobreAct = new Intent(M_MainActivity.this, SobreActivity.class);
-                sobreAct.putExtra( "cliente",cliente);
-                startActivity(sobreAct);
+                //sobreAct.putExtra( "cliente",cliente);
+                //startActivity(sobreAct);
                 break;
             case R.id.nav_sair:
                 finish();
-
                 break;
         }
 
@@ -308,9 +319,46 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
     }
     public void getPerfil(){
-        String url = "http://192.168.42.244:5000/login/getperfil";
+        String url = "http://10.246.205.255:5000/login/getperfilcliente";
         //String url = "http://192.168.1.101:5000/login/getperfil";
         new SolicitaDados().execute(url);
+    }
+
+    public void setRanking(){
+        motorista = new Motorista(); //TODO este motorista deve vir do pedido
+        final AlertDialog.Builder builder = new AlertDialog.Builder(M_MainActivity.this);
+        // Get the layout inflater
+        LayoutInflater inflater = M_MainActivity.this.getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        View view = inflater.inflate(R.layout.dialog_rating, null);
+        RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+        final TextView valor = view.findViewById(R.id.txt_valor);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                valor.setText(String.valueOf(rating));
+            }
+        });
+
+        builder.setView(view);
+
+        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        motorista.setRank(Float.parseFloat(valor.getText().toString()));        //CHMAR BANCO PASSANDO ID DO MOTORISTA E O VALOR
+                    }
+                })
+                .setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        finish();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
     }
     private class SolicitaDados extends AsyncTask<String, Void, String> {
         @Override
@@ -324,7 +372,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
 
             //Criado para tratar a nova String vinda do Servidor;
 
-            String[] resultado = results.split( "," );
+             String[] resultado = results.split( "," );
             //Log.d("OLHO NO LANCE!",resultado[1]);
             //TODO falta verificar se é juridica ou fisica
             // está so pegando a resposta de fisica

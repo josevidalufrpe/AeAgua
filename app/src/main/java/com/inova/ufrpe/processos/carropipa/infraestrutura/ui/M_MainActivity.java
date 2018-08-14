@@ -88,6 +88,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                                          public void onDataChange(DataSnapshot dataSnapshot) {
                                                 try{
                                                     motoristaEntrega = dataSnapshot.getValue().toString();
+                                                    setRanking();
                                                 }
                                                 catch (Exception e){Log.e("ERROU", "Está vazio");}
                                          }
@@ -99,7 +100,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
                                      });
 
 
-        //setRanking(); //APENAS PARA TESTE do RATINGBAR
+        // //APENAS PARA TESTE do RATINGBAR
         //fim de Pega os dados vindos após o login
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );

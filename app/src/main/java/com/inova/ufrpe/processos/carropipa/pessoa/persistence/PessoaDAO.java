@@ -12,8 +12,8 @@ import static java.lang.Boolean.TRUE;
 public class PessoaDAO {
 
    private String parametros;
-    private final String url = "http://10.246.217.119:5000/cadastro/criar_perfil";
-    //private final String url = "http://192.168.1.101:5000/cadastro/criar_perfil";
+    //private final String url = "http://10.246.217.119:5000/cadastro/criar_perfil";
+    private final String url = "http://192.168.1.101:5000/cadastro/criar_perfil";
     private Boolean response;
 
 

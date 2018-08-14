@@ -103,21 +103,21 @@ public class SolicitarActivity extends AppCompatActivity {
         pedido.setLongitude(location.getLongitude());
         pedido.setQuantidade(quantidade.getSelectedItem().toString());
         pedido.setValor(new Random().nextInt((500-150)+1));
-
+        savePedido();
         databaseReference = FirebaseDatabase.getInstance()
-                .getReference("pedido").child(cliente.getPessoa().getCpf());
+                .getReference("pedido").child("100");
         databaseReference.setValue(pedido);
 
-        savePedido();
+
     }
 
     public void savePedido(){
-        String url = "http://10.246.1.121:5000/cadastro/cadastrarpedido";
-        //String url = "http://192.168.1.101:5000/login/getperfil";
+        //String url = "http://10.246.1.121:5000/cadastro/cadastrarpedido";
+        String url = "http://192.168.1.101:5000/cadastro/cadastrarpedido";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/YY - HH:mm");
         Date datahora = Calendar.getInstance().getTime();
         String dataini = simpleDateFormat.format(datahora);
-
+        pedido.setDataini( dataini );
         parametros = "horaini="+ dataini + "&valor=" + pedido.getValor() + "&clienteid=" + cliente.getId();
         Log.e("ENVIOU", parametros);
         new SolicitaDados().execute(url);

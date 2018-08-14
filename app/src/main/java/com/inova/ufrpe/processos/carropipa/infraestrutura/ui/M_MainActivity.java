@@ -18,6 +18,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.StaticLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -40,6 +41,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.inova.ufrpe.processos.carropipa.R;
 import com.inova.ufrpe.processos.carropipa.cliente.dominio.Cliente;
 import com.inova.ufrpe.processos.carropipa.infraestrutura.serverlayer.Conexao;
@@ -56,6 +62,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private String user_name;
     private String user_sname;
     private String user_rank;
+    private FirebaseDatabase database;
     private LocationManager locationManager;
     public  static Location localizacao;
     private static final int REQUEST_FINE_LOCATION = 1;
@@ -63,6 +70,7 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
     private Cliente cliente = new Cliente();
     private Motorista motorista;
     private String parametros;
+    private String motoristaEntrega;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -71,7 +79,27 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         //Pega os dados vindos após o login
         checkPermission();
         setarInformaçoes();
-        setRanking(); //APENAS PARA TESTE do RATINGBAR
+
+        final String clientaf = String.valueOf( cliente.getId() );
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("entrega").child(clientaf);//bota cpf do cara
+        myRef.addValueEventListener( new ValueEventListener() {
+                                         @Override
+                                         public void onDataChange(DataSnapshot dataSnapshot) {
+                                                try{
+                                                    motoristaEntrega = dataSnapshot.getValue().toString();
+                                                }
+                                                catch (Exception e){Log.e("ERROU", "Está vazio");}
+                                         }
+
+                                         @Override
+                                         public void onCancelled(DatabaseError databaseError) {
+
+                                         }
+                                     });
+
+
+        //setRanking(); //APENAS PARA TESTE do RATINGBAR
         //fim de Pega os dados vindos após o login
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById( R.id.map );
@@ -319,8 +347,8 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
         cliente = (Cliente) autentication.getExtras().getSerializable( "cliente" );
     }
     public void getPerfil(){
-        String url = "http://10.246.205.255:5000/login/getperfilcliente";
-        //String url = "http://192.168.1.101:5000/login/getperfil";
+        //String url = "http://10.246.205.255:5000/login/getperfilcliente";
+        String url = "http://192.168.1.101:5000/login/getperfil";
         new SolicitaDados().execute(url);
     }
 
@@ -347,7 +375,10 @@ public class M_MainActivity extends AppCompatActivity implements OnMapReadyCallb
 
         builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        motorista.setRank(Float.parseFloat(valor.getText().toString()));        //CHMAR BANCO PASSANDO ID DO MOTORISTA E O VALOR
+                        //TODO CHMAR BANCO PASSANDO ID DO MOTORISTA E O VALOR
+                        motorista.setId( Long.valueOf( motoristaEntrega ) );
+                        //é apenas o id do motorista
+                        motorista.setRank(valor.getText().toString());
                     }
                 })
                 .setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {

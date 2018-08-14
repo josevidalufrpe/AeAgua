@@ -25,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_login;
     private EditText edt_senha;
-    private final String url = "http://192.168.42.244:5000/login/logar";
-    //private final String url = "http://192.168.1.101:5000/login/logar";
+    //private final String url = "http://192.168.42.244:5000/login/logar";
+    private final String url = "http://192.168.1.101:5000/login/logar";
     private String parametros = "";
     private Usuario usuario= new Usuario();
     private Pessoa pessoa = new Pessoa();

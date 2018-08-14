@@ -10,15 +10,19 @@ import java.io.Serializable;
 public class Motorista implements Parcelable, Serializable {
 
     private Long id;
-    private String cpf;
-    private String logradouro;
-    private String complemento;
-    private String cidade;
-    private String bairro;
-    private String cep;
-    private String uf;
+    private String cnh;
+    private String rank;
 
     private Pessoa pessoa;
+
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
     public Long getId() {
         return id;
@@ -28,60 +32,12 @@ public class Motorista implements Parcelable, Serializable {
         this.id = id;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCnh() {
+        return cnh;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
+    public void setCnh(String cnh) {
+        this.cnh = cnh;
     }
 
     @Override
@@ -93,25 +49,17 @@ public class Motorista implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeLong(id);
-        dest.writeString(this.cpf);
-        dest.writeString(this.logradouro);
-        dest.writeString(this.complemento);
-        dest.writeString(this.bairro);
-        dest.writeString(this.cep);
-        dest.writeString(this.cidade);
-        dest.writeString(this.uf);
+        dest.writeString(this.cnh );
+        dest.writeString( this.rank );
+
     }
 
     private void readFromParcel(Parcel parcel) {
         //le os dados na ordem que foram escritos
         this.id = parcel.readLong();
-        this.cpf = parcel.readString();
-        this.logradouro = parcel.readString();
-        this.complemento = parcel.readString();
-        this.bairro = parcel.readString();
-        this.cep = parcel.readString();
-        this.cidade = parcel.readString();
-        this.uf = parcel.readString();
+        this.cnh = parcel.readString();
+        this.rank = parcel.readString();
+
     }
 
     public static final Creator<Motorista> CREATOR = new Creator<Motorista>() {

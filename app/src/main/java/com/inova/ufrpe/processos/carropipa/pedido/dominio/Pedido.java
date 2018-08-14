@@ -72,4 +72,9 @@ public class Pedido implements Serializable {
 
     private Double latitude;
     private Double longitude;
+
+    private String dataini;
+
+    public void setDataini (String s ){this.dataini = s;}
+    public String getDataini (){return  dataini;}
 }
